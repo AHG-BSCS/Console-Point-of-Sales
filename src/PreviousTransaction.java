@@ -10,8 +10,8 @@ public class PreviousTransaction {
 
     void Selection() {
         try {
-            Scanner scn = new Scanner(System.in);
-            int choice = scn.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
 
             switch (choice) {
                 case 0:
@@ -25,6 +25,7 @@ public class PreviousTransaction {
                     StartPreviousTransaction();
                     break;
             }
+            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();

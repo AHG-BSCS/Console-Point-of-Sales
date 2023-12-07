@@ -5,18 +5,18 @@ public class Home {
         System.out.println("POSsy - A Point-Of-Sales Console System");
         System.out.println("By Al Hans Gaming");
         System.out.println("\nSelect Type of Transaction: ");
-        System.out.println("1 - New Transaction");
-        System.out.println("2 - Previous Transactions");
-        System.out.println("3 - Inventory");
-        System.out.println("4 - Exit");
+        System.out.println("[1] New Transaction");
+        System.out.println("[2] Previous Transactions");
+        System.out.println("[3] Inventory");
+        System.out.println("[4] Exit");
 
-        Selection();
+        selection();
     }
 
-    void Selection() {
+    void selection() {
         try {
-            Scanner scn = new Scanner(System.in);
-            int choice = scn.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
 
             switch (choice) {
                 case 1:
@@ -44,8 +44,9 @@ public class Home {
                     BackHome();
                     break;
             }
+            scanner.close();
         }
-        catch (Exception ex) {
+        catch (Exception e) {
             Functions.clearConsole();
             System.out.println("Invalid selection.\n");
             BackHome();

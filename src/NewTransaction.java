@@ -17,8 +17,8 @@ public class NewTransaction {
 
     void Selection() {
         try {
-            Scanner scn = new Scanner(System.in);
-            int choice = scn.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
 
             switch (choice) {
                 case 0:
@@ -48,6 +48,7 @@ public class NewTransaction {
                     StartNewTransac();
                     break;
             }
+            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -60,8 +61,8 @@ public class NewTransaction {
         System.out.println("CART");
         System.out.println("0 - Back");
         try {
-            Scanner scn = new Scanner(System.in);
-            int choice = scn.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
 
             switch (choice) {
                 case 0:
@@ -74,6 +75,7 @@ public class NewTransaction {
                     ShowCart();
                     break;
             }
+            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -100,8 +102,8 @@ public class NewTransaction {
 
     void SelectFood() {
         try {
-            Scanner scn = new Scanner(System.in);
-            int choice = scn.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
 
             if (choice == 0) {
                 Functions.clearConsole();
@@ -117,6 +119,7 @@ public class NewTransaction {
                 System.out.println("Invalid selection.\n");
                 ShowFoods();
             }
+            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -127,8 +130,8 @@ public class NewTransaction {
 
     void SelectDrink() {
         try {
-            Scanner scn = new Scanner(System.in);
-            int choice = scn.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
 
             if (choice == 0) {
                 Functions.clearConsole();
@@ -144,6 +147,7 @@ public class NewTransaction {
                 System.out.println("Invalid selection.\n");
                 ShowDrinks();
             }
+            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -154,10 +158,10 @@ public class NewTransaction {
 
     void ProcessFood(int id) {
         System.out.println("0 - Back");
-        Scanner scn = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         try {
             System.out.print("Enter Quantity of Items: ");
-            int quantity = scn.nextInt();
+            int quantity = scanner.nextInt();
             String name = "Sample Food"; //Fill values from database
             double price = 0;
             double vat;
@@ -178,6 +182,7 @@ public class NewTransaction {
 
             Functions.clearConsole();
             StartNewTransac();
+            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -188,10 +193,10 @@ public class NewTransaction {
 
     void ProcessDrink(int id) {
         System.out.println("0 - Back");
-        Scanner scn = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         try {
             System.out.print("Enter Quantity of Items: ");
-            int quantity = scn.nextInt();
+            int quantity = scanner.nextInt();
             String name = "Sample Drink"; //Fill values from database
             double price = 0;
             double vat;
@@ -212,6 +217,7 @@ public class NewTransaction {
 
             Functions.clearConsole();
             StartNewTransac();
+            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
