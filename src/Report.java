@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Report {
     public void startReport() {
-        System.out.println("Previous Transaction");
-        System.out.println("0 - Back");
+        System.out.println("Report");
+        System.out.println("[0] Back");
 
         Selection();
     }

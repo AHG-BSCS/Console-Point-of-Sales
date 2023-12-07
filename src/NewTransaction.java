@@ -6,11 +6,10 @@ public class NewTransaction {
     Map<Integer, AddToCart> selectedProduct = new HashMap<>();
 
     void startNewTransac() {
-        System.out.println("1 - Foods");
-        System.out.println("2 - Drinks");
-        System.out.println("3 - View Cart");
-        System.out.println("4 - Generate Receipt");
-        System.out.println("0 - Back");
+        System.out.println("[S] Search");
+        System.out.println("[R] Receipt");
+        System.out.println("[0] Back");
+        System.out.print("Item ID: ");
 
         selection();
     }
