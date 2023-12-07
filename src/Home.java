@@ -40,14 +40,14 @@ public class Home {
                     break;
                 default:
                     Functions.clearConsole();
-                    System.out.println("Invalid type of transaction.\n");
+                    System.out.println("Invalid selection.\n");
                     BackHome();
                     break;
             }
         }
         catch (Exception ex) {
             Functions.clearConsole();
-            System.out.println("Invalid type of transaction.\n");
+            System.out.println("Invalid selection.\n");
             BackHome();
         }
     }

@@ -1,6 +1,10 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class NewTransaction {
+    Map<Integer, AddToCart> selectedProduct = new HashMap<>();
+
     void StartNewTransac() {
         System.out.println("1 - Foods");
         System.out.println("2 - Drinks");
@@ -88,7 +92,7 @@ public class NewTransaction {
 
     void ShowDrinks() {
         //Display available drinks from database
-        System.out.println("1 - Sample Drink (Php 0.00)");
+        System.out.println("2 - Sample Drink (Php 0.00)");
         System.out.println("0 - Back");
 
         SelectDrink();
@@ -131,7 +135,7 @@ public class NewTransaction {
                 NewTransaction back = new NewTransaction();
                 back.StartNewTransac();
             }
-            else if (choice == 1) { //If the id exist in database
+            else if (choice == 2) { //If the id exist in database
                 Functions.clearConsole();
                 ProcessDrink(choice);
             }
@@ -153,17 +157,24 @@ public class NewTransaction {
         Scanner scn = new Scanner(System.in);
         try {
             System.out.print("Enter Quantity of Items: ");
-            int item_quantity = scn.nextInt();
-            String item_name = "Sample Food"; //Fill values from database
-            double item_price = 0;
+            int quantity = scn.nextInt();
+            String name = "Sample Food"; //Fill values from database
+            double price = 0;
             double vat;
             double price_gross;
 
-            double totalPrice = item_price * item_quantity;
+            double totalPrice = price * quantity;
             vat = totalPrice*0.12;
             price_gross = totalPrice - vat;
             
-            //Store data in a list or dictionary
+            if (selectedProduct.containsKey(id)) {
+                AddToCart existingProduct = selectedProduct.get(id);
+                existingProduct.setQuantity(existingProduct.getQuantity() + quantity);
+            }
+            else {
+                AddToCart product = new AddToCart(id, name, price, quantity, totalPrice);
+                selectedProduct.put(id, product);
+            }
 
             Functions.clearConsole();
             StartNewTransac();
@@ -180,17 +191,24 @@ public class NewTransaction {
         Scanner scn = new Scanner(System.in);
         try {
             System.out.print("Enter Quantity of Items: ");
-            int item_quantity = scn.nextInt();
-            String item_name = "Sample Drink"; //Fill values from database
-            double item_price = 0;
+            int quantity = scn.nextInt();
+            String name = "Sample Drink"; //Fill values from database
+            double price = 0;
             double vat;
             double price_gross;
 
-            double totalPrice = item_price * item_quantity;
+            double totalPrice = price * quantity;
             vat = totalPrice*0.12;
             price_gross = totalPrice - vat;
             
-            //Store data in a list or dictionary
+            if (selectedProduct.containsKey(id)) {
+                AddToCart existingProduct = selectedProduct.get(id);
+                existingProduct.setQuantity(existingProduct.getQuantity() + quantity);
+            }
+            else {
+                AddToCart product = new AddToCart(id, name, price, quantity, totalPrice);
+                selectedProduct.put(id, product);
+            }
 
             Functions.clearConsole();
             StartNewTransac();
@@ -203,15 +221,15 @@ public class NewTransaction {
     }
 
     void GenerateReceipt() {
-        //Load items from the list or dictionary
+        System.out.println("--------------------RECEIPT--------------------");
+        for (Map.Entry<Integer, AddToCart> entry : selectedProduct.entrySet()) {
+            int id = entry.getKey();
+            AddToCart product = entry.getValue();
 
-        System.out.println("----YOUR RECEIPT----");
-        System.out.println("Product Name: ");
-        System.out.println("Price Per Unit: ");
-        System.out.println("Quantity: \n");
-        System.out.println("Gross Price: ");
-        System.out.println("Value Added Tax (VAT 12%) ");
-        System.out.println("TOTAL AMOUNT: ");
+            double totalPrice = product.getPrice() * product.getQuantity();
+            System.out.println(product.getName() + "   Php" + product.getPrice() + "   x" + product.getQuantity() + "   Php" + totalPrice);
+        }
+        System.out.println("-----------------------------------------------");
 
         System.out.println("\n0 - Cancel");
         System.out.println("1 - Confirm");
