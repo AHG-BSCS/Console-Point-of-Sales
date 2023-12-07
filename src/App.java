@@ -26,7 +26,9 @@ class Intro {
                     functions.Function2();
                     break;
                 default:
+                    functions.clearConsole();
                     System.out.println("Invalid type of transaction, please choose from the choices, wag na maghanap ng wala");
+
             }
         }
     }
@@ -36,7 +38,38 @@ class Intro {
 
 class Functions{
     void Function1() {
-        System.out.println("FUNCTION uno");
+        Scanner scn = new Scanner(System.in);
+        String item_name;
+        double item_price;
+        int item_quantity;
+
+        double price;
+        double vat;
+        double price_gross;
+
+        clearConsole();
+        System.out.print("Enter Product Name: ");
+        item_name = scn.nextLine();
+
+        System.out.print("Enter Price of Item: ");
+        item_price = scn.nextDouble();
+
+        System.out.print("Enter Quantity of Items: ");
+        item_quantity = scn.nextInt();
+
+        price = item_price * item_quantity;
+        vat = price*0.12;
+        price_gross = price - vat;
+
+        System.out.println("----YOUR RECEIPT----");
+        System.out.println("Product Name: " + item_name);
+        System.out.println("Price Per Unit: " + item_price);
+        System.out.println("Quantity: " + item_quantity + "\n");
+        System.out.println("Gross Price: " + price_gross );
+        System.out.println("Value Added Tax (VAT 12%) " + vat);
+        System.out.println("TOTAL AMOUNT: " + price);
+        return;
+
     }
 
     void Function2() {
