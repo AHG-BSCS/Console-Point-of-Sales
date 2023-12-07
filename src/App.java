@@ -1,8 +1,8 @@
 public class App {
     public static void main(String[] args) {
-        Home start = new Home();
+        MainMenu start = new MainMenu();
 
         Functions.clearConsole();
-        start.BackHome();
+        start.mainMenu();
     }
 }

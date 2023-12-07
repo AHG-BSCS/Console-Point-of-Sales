@@ -5,17 +5,17 @@ import java.util.Scanner;
 public class NewTransaction {
     Map<Integer, AddToCart> selectedProduct = new HashMap<>();
 
-    void StartNewTransac() {
+    void startNewTransac() {
         System.out.println("1 - Foods");
         System.out.println("2 - Drinks");
         System.out.println("3 - View Cart");
         System.out.println("4 - Generate Receipt");
         System.out.println("0 - Back");
 
-        Selection();
+        selection();
     }
 
-    void Selection() {
+    void selection() {
         try {
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
@@ -23,8 +23,8 @@ public class NewTransaction {
             switch (choice) {
                 case 0:
                     Functions.clearConsole();
-                    Home back = new Home();
-                    back.BackHome();
+                    MainMenu back = new MainMenu();
+                    back.mainMenu();
                     break;
                 case 1:
                     Functions.clearConsole();
@@ -36,7 +36,7 @@ public class NewTransaction {
                     break;
                 case 3:
                     Functions.clearConsole();
-                    ShowCart();
+                    showCart();
                     break;
                 case 4:
                     Functions.clearConsole();
@@ -45,7 +45,7 @@ public class NewTransaction {
                 default:
                     Functions.clearConsole();
                     System.out.println("Invalid selection.\n");
-                    StartNewTransac();
+                    startNewTransac();
                     break;
             }
             scanner.close();
@@ -53,11 +53,11 @@ public class NewTransaction {
         catch (Exception ex) {
             Functions.clearConsole();
             System.out.println("Invalid selection.\n");
-            StartNewTransac();
+            startNewTransac();
         }
     }
 
-    void ShowCart() {
+    public void showCart() {
         System.out.println("CART");
         System.out.println("0 - Back");
         try {
@@ -67,12 +67,12 @@ public class NewTransaction {
             switch (choice) {
                 case 0:
                     Functions.clearConsole();
-                    StartNewTransac();
+                    startNewTransac();
                     break;
                 default:
                     Functions.clearConsole();
                     System.out.println("Invalid selection.\n");
-                    ShowCart();
+                    showCart();
                     break;
             }
             scanner.close();
@@ -80,7 +80,7 @@ public class NewTransaction {
         catch (Exception ex) {
             Functions.clearConsole();
             System.out.println("Invalid selection.\n");
-            ShowCart();
+            showCart();
         }
     }
 
@@ -108,7 +108,7 @@ public class NewTransaction {
             if (choice == 0) {
                 Functions.clearConsole();
                 NewTransaction back = new NewTransaction();
-                back.StartNewTransac();
+                back.startNewTransac();
             }
             else if (choice == 1) { //If the id exist in database
                 Functions.clearConsole();
@@ -136,7 +136,7 @@ public class NewTransaction {
             if (choice == 0) {
                 Functions.clearConsole();
                 NewTransaction back = new NewTransaction();
-                back.StartNewTransac();
+                back.startNewTransac();
             }
             else if (choice == 2) { //If the id exist in database
                 Functions.clearConsole();
@@ -181,7 +181,7 @@ public class NewTransaction {
             }
 
             Functions.clearConsole();
-            StartNewTransac();
+            startNewTransac();
             scanner.close();
         }
         catch (Exception ex) {
@@ -216,7 +216,7 @@ public class NewTransaction {
             }
 
             Functions.clearConsole();
-            StartNewTransac();
+            startNewTransac();
             scanner.close();
         }
         catch (Exception ex) {
@@ -246,13 +246,13 @@ public class NewTransaction {
             switch (choice) {
                 case 0:
                     Functions.clearConsole();
-                    StartNewTransac();
+                    startNewTransac();
                     break;
                 case 1:
                     //Store the receipt to database
                     Functions.clearConsole();
-                    Home back = new Home();
-                    back.BackHome();
+                    MainMenu back = new MainMenu();
+                    back.mainMenu();
                     break;
                 default:
                     Functions.clearConsole();

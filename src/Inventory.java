@@ -1,14 +1,14 @@
 import java.util.Scanner;
 
 public class Inventory {
-    void StartInventory() {
+    public void startInventory() {
         System.out.println("Inventory");
         System.out.println("0 - Back");
 
-        Selection();
+        selection();
     }
 
-    void Selection() {
+    public void selection() {
         try {
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
@@ -16,13 +16,13 @@ public class Inventory {
             switch (choice) {
                 case 0:
                     Functions.clearConsole();
-                    Home back = new Home();
-                    back.BackHome();
+                    MainMenu back = new MainMenu();
+                    back.mainMenu();
                     break;
                 default:
                     Functions.clearConsole();
                     System.out.println("Invalid selection.\n");
-                    StartInventory();
+                    startInventory();
                     break;
             }
             scanner.close();
@@ -30,7 +30,7 @@ public class Inventory {
         catch (Exception ex) {
             Functions.clearConsole();
             System.out.println("Invalid selection.\n");
-            StartInventory();
+            startInventory();
         }
     }
 }

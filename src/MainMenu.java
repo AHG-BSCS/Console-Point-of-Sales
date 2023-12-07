@@ -1,19 +1,19 @@
 import java.util.Scanner;
 
-public class Home {
-    void BackHome() {
+public class MainMenu {
+    public void mainMenu() {
         System.out.println("POSsy - A Point-Of-Sales Console System");
         System.out.println("By Al Hans Gaming");
         System.out.println("\nSelect Type of Transaction: ");
         System.out.println("[1] New Transaction");
-        System.out.println("[2] Previous Transactions");
-        System.out.println("[3] Inventory");
+        System.out.println("[2] Inventory");
+        System.out.println("[3] Report");
         System.out.println("[4] Exit");
 
         selection();
     }
 
-    void selection() {
+    public void selection() {
         try {
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
@@ -22,17 +22,17 @@ public class Home {
                 case 1:
                     Functions.clearConsole();
                     NewTransaction startNewTransac = new NewTransaction();
-                    startNewTransac.StartNewTransac();
+                    startNewTransac.startNewTransac();
                     break;
                 case 2:
                     Functions.clearConsole();
-                    PreviousTransaction startPreviousTransaction = new PreviousTransaction();
-                    startPreviousTransaction.StartPreviousTransaction();
+                    Inventory startInventory = new Inventory();
+                    startInventory.startInventory();
                     break;
                 case 3:
                     Functions.clearConsole();
-                    Inventory startInventory = new Inventory();
-                    startInventory.StartInventory();
+                    Report startPreviousTransaction = new Report();
+                    startPreviousTransaction.startReport();
                     break;
                 case 4:
                     Functions.clearConsole();
@@ -41,7 +41,7 @@ public class Home {
                 default:
                     Functions.clearConsole();
                     System.out.println("Invalid selection.\n");
-                    BackHome();
+                    mainMenu();
                     break;
             }
             scanner.close();
@@ -49,7 +49,7 @@ public class Home {
         catch (Exception e) {
             Functions.clearConsole();
             System.out.println("Invalid selection.\n");
-            BackHome();
+            mainMenu();
         }
     }
 }
