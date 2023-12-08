@@ -2,6 +2,7 @@ public class Item {
     private int itemPk;
     private String product;
     private float price;
+    private int quantity;
     private int stock;
     private int classification;
 
@@ -24,6 +25,13 @@ public class Item {
     }
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getStock() {

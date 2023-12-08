@@ -1,14 +1,15 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class NewTransaction {
     Map<Integer, AddToCart> selectedProduct = new HashMap<>();
+    ArrayList<Item> cart = new ArrayList<>();
 
     public void startNewTransac() {
         while (true) {
-            System.out.println("[S] Search");
-            System.out.println("[R] Receipt");
-            System.out.println("[B] Back");
+            listItems();
+            System.out.println("\n[S] Search  [R] Receipt  [B] Back");
             System.out.print("Item ID: ");
 
             if (selection()) break;
@@ -35,9 +36,27 @@ public class NewTransaction {
         
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper();
-            Item item = databaseHelper.getItem(Integer.parseInt(choice));
-            System.out.println(item.getProduct());
+            Item item = new Item();
+            item = databaseHelper.getItem(Integer.parseInt(choice));
+            
+            if (item.getProduct() == null)
+                System.out.println("Invalid Item ID");
+            else {
+                int quantity = 0;
+                while (true) {
+                    System.out.print("Quantity: ");
+                    quantity = Functions.getChoice();
 
+                    // Limit the item quantity to 1 - 200
+                    if (quantity > 0 & quantity < 201)
+                        break;
+                    else
+                        System.out.println("Invalid Quantity!");
+                }
+                // Make sure quantity is valid before adding the item
+                item.setQuantity(quantity);
+                cart.add(item);
+            }
         } catch (Exception e) {
             System.out.println("Invalid Item ID");
         }
@@ -45,7 +64,17 @@ public class NewTransaction {
     }
 
     public void listItems() {
-        System.out.println("Items 1:");
+        Functions.clearConsole();
+
+        if (cart != null) {
+            System.out.println("== ITEMS ON CART ==");
+            for (Item item : cart) {
+                System.out.println(item.getProduct());
+                System.out.println(item.getQuantity() + " pc * " + 
+                                    item.getPrice() + 
+                                    " = " + (item.getPrice() * item.getQuantity()));
+            }
+        }
     }
 
     public void search() {
