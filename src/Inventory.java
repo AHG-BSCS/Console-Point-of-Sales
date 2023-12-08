@@ -6,34 +6,36 @@ public class Inventory {
 
         while (true) {
             while (true) {
-            System.out.println("[1] Processor");
-            System.out.println("[2] Graphics Card");
-            System.out.println("[3] Memory");
-            System.out.println("[4] Storage");
-            System.out.println("[5] Motherboard");
-            System.out.println("[6] Power Supply");
-            System.out.println("[7] Fans / Cooler");
-            System.out.println("[8] Keyboard");
-            System.out.println("[9] Mice");
-            System.out.println("[10] Headset");
-            System.out.println("[11] Microphone");
-            System.out.println("[12] Accessory");
-            System.out.println("[0] Back");
-            System.out.print("\nClassification: ");
+                System.out.println("=== I N V E N T O R Y ===\n");
 
-            classification = Functions.getChoice();
+                System.out.println("[1] Processor");
+                System.out.println("[2] Graphics Card");
+                System.out.println("[3] Memory");
+                System.out.println("[4] Storage");
+                System.out.println("[5] Motherboard");
+                System.out.println("[6] Power Supply");
+                System.out.println("[7] Fans / Cooler");
+                System.out.println("[8] Keyboard");
+                System.out.println("[9] Mice");
+                System.out.println("[10] Headset");
+                System.out.println("[11] Microphone");
+                System.out.println("[12] Accessory");
+                System.out.println("[0] Back");
+                System.out.print("\nClassification: ");
 
-            if (classification == 0) {
+                classification = Functions.getChoice();
+
+                if (classification == 0) {
+                    Functions.clearConsole();
+                    return;
+                }
+                else if (classification > 0 & classification < 13) {
+                    Functions.clearConsole();
+                    break;
+                }
+                
                 Functions.clearConsole();
-                return;
-            }
-            else if (classification > 0 & classification < 13) {
-                Functions.clearConsole();
-                break;
-            }
-            
-            Functions.clearConsole();
-            System.out.println("Invalid Classification\n");
+                System.out.println("Invalid Classification\n");
             }
 
             // Store and display the retrieved items
@@ -43,8 +45,8 @@ public class Inventory {
             items = databaseHelper.getItems(classification);
             displayItemsByCategory(items);
 
-            System.out.println("\n\n=================================");
-            System.out.print("Press Enter to go back");
+            System.out.println("\n=================================");
+            System.out.print("Press Enter to go back...");
             Functions.getChoiceInString();
             Functions.clearConsole();
         }
