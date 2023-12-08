@@ -1,13 +1,13 @@
 public class MainMenu {
     public void mainMenu() {
         while (true) {
-            System.out.println("POSsy - A Point-Of-Sales Console System");
-            System.out.println("By Al Hans Gaming\n");
-            System.out.println("[1] New Transaction");
-            System.out.println("[2] Inventory");
-            System.out.println("[3] Report");
-            System.out.println("[4] Exit");
-            System.out.print("\nTransaction #: ");
+            System.out.println("\033[33mPOSsys - A Point of Sale Console System");
+            System.out.println("By Al Hans Gaming\033[0m\n");
+            System.out.println("\033[44m[1]\033[0m New Transaction");
+            System.out.println("\033[44m[2]\033[0m Inventory");
+            System.out.println("\033[44m[3]\033[0m Report");
+            System.out.println("\033[44m[4]\033[0m Exit");
+            System.out.print("\n\033[34mTransaction #: \033[0m");
 
             if (selection()) break;
         }

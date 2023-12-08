@@ -96,13 +96,15 @@ public class NewTransaction {
     }
 
     public void listItems() {
-        System.out.println("=== I T E M S ===");
+        if (cart.size() == 0) {
+            System.out.println("=== TRANSACTION ===");
 
-        for (Item item : cart) {
-            System.out.println(item.getProduct());
-            System.out.println(item.getQuantity() + " pc * " + 
-                                item.getPrice() + " = " + 
-                                (item.getPrice() * item.getQuantity()));
+            for (Item item : cart) {
+                System.out.println(item.getProduct());
+                System.out.println(item.getQuantity() + " pc * " + 
+                                    item.getPrice() + " = " + 
+                                    (item.getPrice() * item.getQuantity()));
+            }
         }
     }
 
