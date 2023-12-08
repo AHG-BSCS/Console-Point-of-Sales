@@ -244,7 +244,7 @@ public class NewTransaction {
             System.out.println("\nCHANGE: " + String.format("%,.2f", (cash - totalPrice)));
 
             System.out.println("\nVatable Sales: " + String.format("%,.2f", totalPrice));
-            System.out.println("Vat Amount: " + String.format("%,.2f", (totalPrice * 0.14)));
+            System.out.println("Vat Amount: " + String.format("%,.2f", (totalPrice * 0.12)));
 
             System.out.println("\nPOS Transaction ID: " + transactionId);
             System.out.println("Date: " + LocalDateTime.now().format(dateFormatter));
