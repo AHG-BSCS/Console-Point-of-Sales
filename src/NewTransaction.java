@@ -63,7 +63,7 @@ public class NewTransaction {
                     if (quantity > 0 & quantity < 201)
                         break;
                     else
-                        System.out.println("Invalid Quantity!");
+                        System.out.println("\nInvalid Quantity!");
                 }
                 // Make sure quantity is valid before adding the item
                 item.setQuantity(quantity);
@@ -80,6 +80,7 @@ public class NewTransaction {
     public void addItemToCart(Item item) {
         int quantity = 0;
         while (true) {
+            System.out.println(item.getProduct());
             System.out.print("Quantity: ");
             quantity = Functions.getChoice();
 
@@ -87,7 +88,7 @@ public class NewTransaction {
             if (quantity > 0 & quantity < 201)
                 break;
             else
-                System.out.println("Invalid Quantity!");
+                System.out.println("\nInvalid Quantity!");
         }
         // Make sure quantity is valid before adding the item
         item.setQuantity(quantity);
@@ -146,7 +147,7 @@ public class NewTransaction {
 
         // Check if the selected item exist
         while (true) {
-            System.out.println("\n[0] Cancel");
+            System.out.println("[0] Cancel");
             System.out.print("Item ID: ");
             
             Item seachedItem = new Item();
