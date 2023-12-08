@@ -1,11 +1,8 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class NewTransaction {
-    Map<Integer, AddToCart> selectedProduct = new HashMap<>();
     ArrayList<Item> cart = new ArrayList<>();
 
     public void startNewTransac() {
@@ -61,7 +58,7 @@ public class NewTransaction {
             item = databaseHelper.getItem(Integer.parseInt(choice));
             
             if (item.getProduct() == null)
-                System.out.println("Invalid Item ID");
+                System.out.println("Invalid Item ID!");
             else {
                 int quantity = 0;
                 while (true) {
@@ -82,7 +79,7 @@ public class NewTransaction {
             }
         } catch (Exception e) {
             Functions.clearConsole();
-            System.out.println("Invalid Item ID");
+            System.out.println("Invalid Item ID!");
         }
         return false;
     }
@@ -150,7 +147,7 @@ public class NewTransaction {
             }
             
             Functions.clearConsole();
-            System.out.println("Invalid Classification\n");
+            System.out.println("Invalid Classification!\n");
         }
 
         ArrayList<Item> items = new ArrayList<>();
@@ -185,7 +182,7 @@ public class NewTransaction {
             }
             else {
                 Functions.clearConsole();
-                System.out.println("Item does not exist");
+                System.out.println("Item does not exist!");
                 inventory.displayItemsByCategory(items);
             }
         }
@@ -197,8 +194,8 @@ public class NewTransaction {
             return;
         }
 
-        double cash = 0;
-        double totalPrice = totalPrice();
+        float cash = 0;
+        float totalPrice = totalPrice();
 
         Functions.clearConsole();
         System.out.println("========== R E C E I P T ==========");
@@ -229,6 +226,10 @@ public class NewTransaction {
         if (cash > 0 & cash < 1_000_000 & cash > totalPrice) {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+            DatabaseHelper databaseHelper = new DatabaseHelper();
+            int transactionId = 0;
+
+            transactionId = databaseHelper.saveTransaction(cart, cash, totalPrice);
 
             Functions.clearConsole();
             System.out.println("========== R E C E I P T ==========");
@@ -245,7 +246,7 @@ public class NewTransaction {
             System.out.println("\nVatable Sales: " + String.format("%,.2f", totalPrice));
             System.out.println("Vat Amount: " + String.format("%,.2f", (totalPrice * 0.14)));
 
-            System.out.println("\nPOS Transaction ID: 0");
+            System.out.println("\nPOS Transaction ID: " + transactionId);
             System.out.println("Date: " + LocalDateTime.now().format(dateFormatter));
             System.out.println("Time: " + LocalDateTime.now().format(timeFormatter));
             
@@ -256,19 +257,18 @@ public class NewTransaction {
         }
 
         System.out.println("\n\n=================================");
-        System.out.print("Press Enter to proceed");
+        System.out.print("Press Enter to proceed...");
         Functions.getChoiceInString();
         Functions.clearConsole();
         cart.clear();
     }
 
-    public double totalPrice() {
-        double totalPrice = 0;
+    public float totalPrice() {
+        float totalPrice = 0;
 
         for (Item item : cart) {
             totalPrice += item.getPrice() * item.getQuantity();
         }
-
         return totalPrice;
     }
 }

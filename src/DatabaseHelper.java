@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DatabaseHelper {
@@ -79,5 +82,60 @@ public class DatabaseHelper {
             }
         }
         return items;
+    }
+
+    public int saveTransaction(ArrayList<Item> items, float cash, float totalPrice) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int generatedKey = 0;
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm:ss a");
+        String transactionSql = "INSERT INTO transactions (employee_id, branch_id, date_time, total_price, cash, change) " +
+                    "VALUES(?, ?, ?, ?, ?, ?)";
+        String transactionItemSql = "INSERT INTO transaction_item (transaction_id, item_id, quantity, item_price, item_total_price) " +
+                    "VALUES(?, ?, ?, ?, ?)";
+        
+        try {
+            connection = DriverManager.getConnection(url);
+            preparedStatement = connection.prepareStatement(transactionSql);
+            preparedStatement.setInt(1, 1);
+            preparedStatement.setInt(2, 1);
+            preparedStatement.setString(3, LocalDateTime.now().format(dateTimeFormatter));
+            preparedStatement.setFloat(4, totalPrice);
+            preparedStatement.setFloat(5, cash);
+            preparedStatement.setFloat(6, (cash - totalPrice));
+
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement("SELECT last_insert_rowid()");
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                generatedKey = resultSet.getInt(1);
+                preparedStatement = connection.prepareStatement(transactionItemSql);
+
+                for (Item item : items) {
+                    preparedStatement.setInt(1, generatedKey);
+                    preparedStatement.setInt(2, item.getItemPk());
+                    preparedStatement.setInt(3, item.getQuantity());
+                    preparedStatement.setFloat(4, item.getPrice());
+                    preparedStatement.setFloat(5, (item.getPrice() * item.getQuantity()));
+                    preparedStatement.executeUpdate();
+                }
+            }
+            else
+                System.out.println("Something went wrong in the database!");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                // Close to prevent memory leaks
+                if (connection != null) connection.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return generatedKey;
     }
 }

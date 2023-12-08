@@ -38,7 +38,7 @@ public class MainMenu {
                 return true;
             default:
                 Functions.clearConsole();
-                System.out.println("Invalid Transaction.\n");
+                System.out.println("Invalid Transaction!\n");
         }
         return false;
     }
