@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Report {
     public void startReport() {
         System.out.println("Report");
@@ -10,14 +8,12 @@ public class Report {
 
     public void Selection() {
         try {
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
+            int choice = Functions.getChoice();
 
             switch (choice) {
                 case 0:
                     Functions.clearConsole();
-                    MainMenu back = new MainMenu();
-                    back.mainMenu();
+                    new MainMenu().mainMenu();
                     break;
                 default:
                     Functions.clearConsole();
@@ -25,7 +21,6 @@ public class Report {
                     startReport();
                     break;
             }
-            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();

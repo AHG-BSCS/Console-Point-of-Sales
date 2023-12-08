@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Functions {
     static void clearConsole() {
         final String os = System.getProperty("os.name");
@@ -9,5 +11,16 @@ public class Functions {
         catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public static int getChoice() {
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+        
+        try {
+            choice = scanner.nextInt();
+        } catch (Exception e) {}
+
+        return choice;
     }
 }

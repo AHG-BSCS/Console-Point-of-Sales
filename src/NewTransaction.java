@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class NewTransaction {
     Map<Integer, AddToCart> selectedProduct = new HashMap<>();
@@ -16,14 +15,11 @@ public class NewTransaction {
 
     void selection() {
         try {
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
+            int choice = Functions.getChoice();
 
             switch (choice) {
                 case 0:
                     Functions.clearConsole();
-                    MainMenu back = new MainMenu();
-                    back.mainMenu();
                     break;
                 case 1:
                     Functions.clearConsole();
@@ -47,7 +43,6 @@ public class NewTransaction {
                     startNewTransac();
                     break;
             }
-            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -60,8 +55,7 @@ public class NewTransaction {
         System.out.println("CART");
         System.out.println("0 - Back");
         try {
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
+            int choice = Functions.getChoice();
 
             switch (choice) {
                 case 0:
@@ -74,7 +68,6 @@ public class NewTransaction {
                     showCart();
                     break;
             }
-            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -101,8 +94,7 @@ public class NewTransaction {
 
     void SelectFood() {
         try {
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
+            int choice = Functions.getChoice();
 
             if (choice == 0) {
                 Functions.clearConsole();
@@ -118,7 +110,6 @@ public class NewTransaction {
                 System.out.println("Invalid selection.\n");
                 ShowFoods();
             }
-            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -129,8 +120,7 @@ public class NewTransaction {
 
     void SelectDrink() {
         try {
-            Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
+            int choice = Functions.getChoice();
 
             if (choice == 0) {
                 Functions.clearConsole();
@@ -146,7 +136,6 @@ public class NewTransaction {
                 System.out.println("Invalid selection.\n");
                 ShowDrinks();
             }
-            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -157,10 +146,9 @@ public class NewTransaction {
 
     void ProcessFood(int id) {
         System.out.println("0 - Back");
-        Scanner scanner = new Scanner(System.in);
         try {
             System.out.print("Enter Quantity of Items: ");
-            int quantity = scanner.nextInt();
+            int quantity = Functions.getChoice();
             String name = "Sample Food"; //Fill values from database
             double price = 0;
             double vat;
@@ -181,7 +169,6 @@ public class NewTransaction {
 
             Functions.clearConsole();
             startNewTransac();
-            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -192,10 +179,9 @@ public class NewTransaction {
 
     void ProcessDrink(int id) {
         System.out.println("0 - Back");
-        Scanner scanner = new Scanner(System.in);
         try {
             System.out.print("Enter Quantity of Items: ");
-            int quantity = scanner.nextInt();
+            int quantity = Functions.getChoice();
             String name = "Sample Drink"; //Fill values from database
             double price = 0;
             double vat;
@@ -216,7 +202,6 @@ public class NewTransaction {
 
             Functions.clearConsole();
             startNewTransac();
-            scanner.close();
         }
         catch (Exception ex) {
             Functions.clearConsole();
@@ -239,8 +224,7 @@ public class NewTransaction {
         System.out.println("\n0 - Cancel");
         System.out.println("1 - Confirm");
         try {
-            Scanner scn = new Scanner(System.in);
-            int choice = scn.nextInt();
+            int choice = Functions.getChoice();
 
             switch (choice) {
                 case 0:
@@ -250,8 +234,7 @@ public class NewTransaction {
                 case 1:
                     //Store the receipt to database
                     Functions.clearConsole();
-                    MainMenu back = new MainMenu();
-                    back.mainMenu();
+                    new MainMenu().mainMenu();
                     break;
                 default:
                     Functions.clearConsole();
