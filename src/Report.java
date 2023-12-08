@@ -1,31 +1,42 @@
 public class Report {
     public void startReport() {
-        System.out.println("Report");
-        System.out.println("[0] Back");
+        while (true) {
+            System.out.println("[1] List of Transaction");
+            System.out.println("[2] Statistics");
+            System.out.println("[0] Back");
 
-        Selection();
+            if (selection())
+                break;
+        }
     }
 
-    public void Selection() {
-        try {
-            int choice = Functions.getChoice();
+    public boolean selection() {
+        int choice = Functions.getChoice();
 
-            switch (choice) {
-                case 0:
-                    Functions.clearConsole();
-                    new MainMenu().mainMenu();
-                    break;
-                default:
-                    Functions.clearConsole();
-                    System.out.println("Invalid selection.\n");
-                    startReport();
-                    break;
-            }
+        switch (choice) {
+            case 0:
+                Functions.clearConsole();
+                return true;
+            case 1:
+                Functions.clearConsole();
+                listOfTransaction();
+                break;
+            case 2:
+                Functions.clearConsole();
+                statistics();
+                break;
+            default:
+                Functions.clearConsole();
+                System.out.println("Invalid Selection!\n");
         }
-        catch (Exception ex) {
-            Functions.clearConsole();
-            System.out.println("Invalid selection.\n");
-            startReport();
-        }
+        return false;
+    }
+
+    public void listOfTransaction() {
+
+    }
+
+    public void statistics() {
+        
     }
 }

@@ -229,6 +229,7 @@ public class NewTransaction {
             DatabaseHelper databaseHelper = new DatabaseHelper();
             int transactionId = 0;
 
+            // Save transaction to database
             transactionId = databaseHelper.saveTransaction(cart, cash, totalPrice);
 
             Functions.clearConsole();
