@@ -10,7 +10,7 @@ public class NewTransaction {
     public void startNewTransac() {
         while (true) {
             listItems();
-            System.out.println("\n[S] Search  [R] Receipt  [B] Back");
+            System.out.println("[S] Search  [R] Receipt  [C] Clear  [B] Back");
             System.out.print("Item ID: ");
 
             if (selection()) break;
@@ -37,6 +37,14 @@ public class NewTransaction {
             case "r":
                 Functions.clearConsole();
                 receipt();
+                return false;
+            case "C":
+                Functions.clearConsole();
+                cart.clear();
+                return false;
+            case "c":
+                Functions.clearConsole();
+                cart.clear();
                 return false;
             case "B":
                 Functions.clearConsole();
@@ -86,8 +94,10 @@ public class NewTransaction {
             quantity = Functions.getChoice();
 
             // Limit the item quantity to 1 - 200
-            if (quantity > 0 & quantity < 201)
+            if (quantity > 0 & quantity < 201) {
+                Functions.clearConsole();
                 break;
+            }
             else
                 System.out.println("\nInvalid Quantity!");
         }
@@ -106,6 +116,7 @@ public class NewTransaction {
                                     item.getPrice() + " = " + 
                                     (item.getPrice() * item.getQuantity()));
             }
+            System.out.println();
         }
     }
 
@@ -119,7 +130,7 @@ public class NewTransaction {
             System.out.println("[4] Storage");
             System.out.println("[5] Motherboard");
             System.out.println("[6] Power Supply");
-            System.out.println("[7] Fans / Cooler");
+            System.out.println("[7] Fans/Cooler");
             System.out.println("[8] Keyboard");
             System.out.println("[9] Mice");
             System.out.println("[10] Headset");
@@ -180,6 +191,11 @@ public class NewTransaction {
     }
 
     public void receipt() {
+        if (cart.size() == 0) {
+            System.out.println("No Item!");
+            return;
+        }
+
         int cash = 0;
         double totalPrice = totalPrice();
 
@@ -198,8 +214,10 @@ public class NewTransaction {
 
             cash = Functions.getChoice();
 
-            if (cash == 0)
+            if (cash == 0) {
+                Functions.clearConsole();
                 return;
+            }
 
             if (cash > 0 & cash < 1_000_000 & cash > totalPrice)
                 break;
@@ -223,8 +241,8 @@ public class NewTransaction {
             System.out.println("\nVatable Sales: " + totalPrice);
             System.out.println("Vat Amount: " + (totalPrice * 0.14));
 
-            System.out.println("\nPOS Transaction ID: 0"); // Try to get the actual ID
-            System.out.println("Date: " + LocalDateTime.now());
+            System.out.println("\nPOS Transaction ID: 0"); // TODO: Try to get the actual ID
+            System.out.println("Date: " + LocalDateTime.now()); // TODO: Improve all the numbering
             System.out.println("Time: " + LocalDateTime.now());
             
             System.out.println("\nThank you for your purchase.");
