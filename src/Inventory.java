@@ -43,6 +43,7 @@ public class Inventory {
             items = databaseHelper.getItems(classification);
             displayItemsByCategory(items);
 
+            System.out.println("\n\n=================================");
             System.out.print("Press Enter to go back");
             Functions.getChoiceInString();
             Functions.clearConsole();
