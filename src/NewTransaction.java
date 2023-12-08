@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class NewTransaction {
             else {
                 int quantity = 0;
                 while (true) {
-                    System.out.println(item.getProduct());
+                    System.out.println(item.getProduct() + " -> Php." + item.getPrice());
                     System.out.print("Quantity: ");
                     quantity = Functions.getChoice();
 
@@ -179,7 +180,72 @@ public class NewTransaction {
     }
 
     public void receipt() {
-        System.out.println("Receipt");
-        
+        int cash = 0;
+        double totalPrice = totalPrice();
+
+        Functions.clearConsole();
+        System.out.println("=== RECEIPT ===");
+        System.out.println("POSsys By Al Hans Gaming");
+        System.out.println("Laguna State Polytechnic University");
+        System.out.println("San Gabriel, San Pablo City, Laguna\n");
+        listItems();
+
+        System.out.println("\nTOTAL : " + totalPrice);
+
+        while (true) {
+            System.out.println("\n[0] Cancel");
+            System.out.print("CASH: ");
+
+            cash = Functions.getChoice();
+
+            if (cash == 0)
+                return;
+
+            if (cash > 0 & cash < 1_000_000 & cash > totalPrice)
+                break;
+            else
+                System.out.println("Invalid Amount!");
+        }
+
+        if (cash > 0 & cash < 1_000_000 & cash > totalPrice) {
+            Functions.clearConsole();
+            System.out.println("=== RECEIPT ===");
+            System.out.println("POSsys By Al Hans Gaming");
+            System.out.println("Laguna State Polytechnic University");
+            System.out.println("San Gabriel, San Pablo City, Laguna\n");
+            
+            listItems();
+
+            System.out.println("\nTOTAL : Php." + totalPrice + "0");
+            System.out.print("CASH: Php." + cash + ".00");
+            System.out.println("\nCHANGE: Php." + (cash - totalPrice));
+
+            System.out.println("\nVatable Sales: " + totalPrice);
+            System.out.println("Vat Amount: " + (totalPrice * 0.14));
+
+            System.out.println("\nPOS Transaction ID: 0"); // Try to get the actual ID
+            System.out.println("Date: " + LocalDateTime.now());
+            System.out.println("Time: " + LocalDateTime.now());
+            
+            System.out.println("\nThank you for your purchase.");
+            System.out.println("If you are not satisfied with the");
+            System.out.println("performance of our product, you can");
+            System.out.println("return it along with its warranty.");
+        }
+
+        System.out.print("\n\nPress Enter to proceed");
+        Functions.getChoiceInString();
+        Functions.clearConsole();
+        cart.clear();
+    }
+
+    public double totalPrice() {
+        double totalPrice = 0;
+
+        for (Item item : cart) {
+            totalPrice += item.getPrice() * item.getQuantity();
+        }
+
+        return totalPrice;
     }
 }
