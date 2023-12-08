@@ -4,51 +4,58 @@ import java.util.Map;
 public class NewTransaction {
     Map<Integer, AddToCart> selectedProduct = new HashMap<>();
 
-    void startNewTransac() {
-        System.out.println("[S] Search");
-        System.out.println("[R] Receipt");
-        System.out.println("[0] Back");
-        System.out.print("Item ID: ");
+    public void startNewTransac() {
+        while (true) {
+            System.out.println("[S] Search");
+            System.out.println("[R] Receipt");
+            System.out.println("[B] Back");
+            System.out.print("Item ID: ");
 
-        selection();
+            if (selection()) break;
+        }
     }
 
-    void selection() {
-        try {
-            int choice = Functions.getChoice();
+    public boolean selection() {
+        String choice = Functions.getChoiceInString();
+        int itemId = 0;
 
-            switch (choice) {
-                case 0:
-                    Functions.clearConsole();
-                    break;
-                case 1:
-                    Functions.clearConsole();
-                    ShowFoods();
-                    break;
-                case 2:
-                    Functions.clearConsole();
-                    ShowDrinks();
-                    break;
-                case 3:
-                    Functions.clearConsole();
-                    showCart();
-                    break;
-                case 4:
-                    Functions.clearConsole();
-                    GenerateReceipt();
-                    break;
-                default:
-                    Functions.clearConsole();
-                    System.out.println("Invalid selection.\n");
-                    startNewTransac();
-                    break;
-            }
+        switch (choice) {
+            case "S":
+                Functions.clearConsole();
+                search();
+                return false;
+            case "R":
+                Functions.clearConsole();
+                receipt();
+                return false;
+            case "B":
+                Functions.clearConsole();
+                return true;
         }
-        catch (Exception ex) {
-            Functions.clearConsole();
-            System.out.println("Invalid selection.\n");
-            startNewTransac();
+        
+        try {
+            DatabaseHelper databaseHelper = new DatabaseHelper();
+            Item item = databaseHelper.getItem(Integer.parseInt(choice));
+            System.out.println(item.getProduct());
+
+        } catch (Exception e) {
+            System.out.println("Invalid Item ID");
         }
+        return false;
+    }
+
+    public void listItems() {
+        System.out.println("Items 1:");
+    }
+
+    public void search() {
+        System.out.println("Search");
+
+    }
+
+    public void receipt() {
+        System.out.println("Receipt");
+        
     }
 
     public void showCart() {

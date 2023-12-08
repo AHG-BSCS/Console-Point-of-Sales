@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Functions {
+    private static Scanner scanner;
     static void clearConsole() {
         final String os = System.getProperty("os.name");
 
@@ -14,11 +15,22 @@ public class Functions {
     }
 
     public static int getChoice() {
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         int choice = 0;
         
         try {
             choice = scanner.nextInt();
+        } catch (Exception e) {}
+
+        return choice;
+    }
+
+    public static String getChoiceInString() {
+        scanner = new Scanner(System.in);
+        String choice = null;
+        
+        try {
+            choice = scanner.nextLine();
         } catch (Exception e) {}
 
         return choice;
