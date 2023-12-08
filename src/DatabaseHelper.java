@@ -136,4 +136,42 @@ public class DatabaseHelper {
         }
         return generatedKey;
     }
+
+    public ArrayList<Transaction> getTransactions() {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM transactions";
+        
+        try {
+            connection = DriverManager.getConnection(url);
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setTransactionPk(resultSet.getInt("transaction_pk"));
+                transaction.setEmployeeId(resultSet.getInt("employee_id"));
+                transaction.setBranchId(resultSet.getInt("branch_id"));
+                transaction.setDateTime(resultSet.getString("date_time"));
+                transaction.setTotalPrice(resultSet.getFloat("total_price"));
+                transaction.setCash(resultSet.getFloat("cash"));
+                transaction.setChange(resultSet.getFloat("change"));
+                transactions.add(transaction);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                // Close to prevent memory leaks
+                if (resultSet != null) resultSet.close();
+                if (connection != null) connection.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return transactions;
+    }
 }
