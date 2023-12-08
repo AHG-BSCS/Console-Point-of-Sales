@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Inventory {
     public void startInventory() {
         System.out.println("Inventory");
@@ -25,6 +27,14 @@ public class Inventory {
             Functions.clearConsole();
             System.out.println("Invalid selection.\n");
             startInventory();
+        }
+    }
+
+    public void displayItemsByCategory(ArrayList<Item> items) {
+        int itemIndex = 1;
+        for (Item item : items) {
+            System.out.println("\n[" + item.getItemPk() + "] " + item.getProduct());
+            System.out.println("Php." + item.getPrice() + " -> " + item.getStock() + "x");
         }
     }
 }

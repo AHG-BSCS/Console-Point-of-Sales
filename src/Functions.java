@@ -16,7 +16,7 @@ public class Functions {
 
     public static int getChoice() {
         scanner = new Scanner(System.in);
-        int choice = 0;
+        int choice = -1;
         
         try {
             choice = scanner.nextInt();
