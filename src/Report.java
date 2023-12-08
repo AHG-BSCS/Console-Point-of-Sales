@@ -1,3 +1,7 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 public class Report {
     public void startReport() {
         while (true) {
@@ -33,7 +37,85 @@ public class Report {
     }
 
     public void listOfTransaction() {
+        while (true) {
+            ArrayList<Transaction> transactions = new ArrayList<>();
+            ArrayList<TransactionItem> transactionItems = new ArrayList<>();
+            DatabaseHelper databaseHelper = new DatabaseHelper();
+            transactions = databaseHelper.getTransactions();
 
+            // List all the transactions
+            for (Transaction transaction : transactions) {
+                System.out.println("[" + transaction.getTransactionPk() + "] " + 
+                                    transaction.getDateTime() + " -> " + 
+                                    transaction.getTotalPrice() + "\n");
+            }
+
+            while (true) {
+                System.out.println("[0] Back");
+                System.out.print("Transaction ID: ");
+                
+                Transaction selectedTransaction = new Transaction();
+                int transactionId = Functions.getChoice();
+                boolean transactionExist = false;
+
+                if (transactionId == 0) {
+                    Functions.clearConsole();
+                    return;
+                }
+
+                for (Transaction transaction : transactions) {
+                    if (transaction.getTransactionPk() == transactionId) {
+                        transactionExist = true;
+                        selectedTransaction = transaction;
+                        break;
+                    }
+                }
+
+                if (transactionExist) {
+                    transactionItems = databaseHelper.getTransactionItem(transactionId);
+                    displayTransaction(selectedTransaction, transactionItems, databaseHelper);
+                    break;
+                }
+                else {
+                    Functions.clearConsole();
+                    System.out.println("Transaction does not exist!\n");
+                    break;
+                }
+            }
+        }
+        
+    }
+
+    private void displayTransaction(Transaction transaction, ArrayList<TransactionItem> transactionItems, DatabaseHelper databaseHelper) {
+        Functions.clearConsole();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm:ss a");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+        LocalDateTime localDateTime = LocalDateTime.parse(transaction.getDateTime(), dateTimeFormatter);
+
+        for (TransactionItem transactionItem : transactionItems) {
+            System.out.println("[" + transactionItem.getItemId() + "] " + 
+                                databaseHelper.getItem(transactionItem.getItemId()).getProduct());
+            System.out.println(transactionItem.getQuantity() + "pc * " +
+                                String.format("%,.2f", transactionItem.getItemPrice()) + " = " + 
+                                String.format("%,.2f", transactionItem.getItemTotalPrice()) + "\n");
+        }
+
+        System.out.println("TOTAL : " + String.format("%,.2f", transaction.getTotalPrice()));
+        System.out.print("CASH: " + String.format("%,.2f", transaction.getCash()));
+        System.out.println("\nCHANGE: " + String.format("%,.2f", transaction.getChange()));
+
+        System.out.println("\nVatable Sales: " + String.format("%,.2f", transaction.getTotalPrice()));
+        System.out.println("Vat Amount: " + String.format("%,.2f", (transaction.getTotalPrice() * 0.12)));
+
+        System.out.println("\nPOS Transaction ID: " + transaction.getTransactionPk());
+        System.out.println("Date: " + localDateTime.format(dateFormatter));
+        System.out.println("Time: " + localDateTime.format(timeFormatter));
+
+        System.out.println("\n=================================");
+        System.out.print("Press Enter to go back...");
+        Functions.getChoiceInString();
+        Functions.clearConsole();
     }
 
     public void statistics() {

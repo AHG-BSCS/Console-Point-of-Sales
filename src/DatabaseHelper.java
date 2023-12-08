@@ -174,4 +174,40 @@ public class DatabaseHelper {
         }
         return transactions;
     }
+
+    public ArrayList<TransactionItem> getTransactionItem(int transactionId) {
+        ArrayList<TransactionItem> transactionItems = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM transaction_item WHERE transaction_id = " + transactionId;
+        
+        try {
+            connection = DriverManager.getConnection(url);
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                TransactionItem transactionItem = new TransactionItem();
+                transactionItem.setTransactionId(resultSet.getInt("transaction_id"));
+                transactionItem.setItemId(resultSet.getInt("item_id"));
+                transactionItem.setQuantity(resultSet.getInt("quantity"));
+                transactionItem.setItemPrice(resultSet.getFloat("item_price"));
+                transactionItem.setItemTotalPrice(resultSet.getFloat("item_total_price"));
+                transactionItems.add(transactionItem);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                // Close to prevent memory leaks
+                if (resultSet != null) resultSet.close();
+                if (connection != null) connection.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return transactionItems;
+    }
 }

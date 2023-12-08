@@ -159,7 +159,7 @@ public class NewTransaction {
 
         // Check if the selected item exist
         while (true) {
-            System.out.println("[0] Cancel");
+            System.out.println("[0] Back"); // TODO: Fix this logic
             System.out.print("Item ID: ");
             
             Item seachedItem = new Item();
