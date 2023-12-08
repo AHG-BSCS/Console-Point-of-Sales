@@ -221,7 +221,7 @@ public class NewTransaction {
             System.out.println("\nCHANGE: Php." + (cash - totalPrice));
 
             System.out.println("\nVatable Sales: " + totalPrice);
-            System.out.println("Vat Amount: " + (totalPrice * 0.14));
+            System.out.println("Vat Amount: " + (totalPrice * 0.12));
 
             System.out.println("\nPOS Transaction ID: 0"); // Try to get the actual ID
             System.out.println("Date: " + LocalDateTime.now());
