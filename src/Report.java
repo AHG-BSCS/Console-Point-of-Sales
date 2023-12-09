@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Report implements Menu{
+public class Report implements Menu {
     @Override
     public void choices() {
         while (true) {
@@ -11,8 +11,7 @@ public class Report implements Menu{
             System.out.println("[0] Back");
             System.out.print("Report #: ");
 
-            if (select())
-                break;
+            if (select()) break;
         }
     }
 
@@ -46,7 +45,9 @@ public class Report implements Menu{
 
             transactions = databaseHelper.getTransactions();
             listTrasactions(transactions);
-            validateTrasaction(transactions, databaseHelper);
+
+            if (validateTrasaction(transactions, databaseHelper))
+                break;
         }
     }
 
@@ -58,7 +59,7 @@ public class Report implements Menu{
         }
     }
 
-    private void validateTrasaction(ArrayList<Transaction> transactions, DatabaseHelper databaseHelper) {
+    private boolean validateTrasaction(ArrayList<Transaction> transactions, DatabaseHelper databaseHelper) {
         ArrayList<TransactionItem> transactionItems = new ArrayList<>();
 
         while (true) {
@@ -70,7 +71,7 @@ public class Report implements Menu{
 
             if (transactionId == 0) {
                 Functions.clearConsole();
-                return;
+                return true;
             }
 
             for (Transaction transaction : transactions) {
@@ -91,6 +92,7 @@ public class Report implements Menu{
                 break;
             }
         }
+        return false;
     }
 
     private void displayTransaction(Transaction transaction, ArrayList<TransactionItem> transactionItems, DatabaseHelper databaseHelper) {
@@ -119,10 +121,7 @@ public class Report implements Menu{
         System.out.println("Date: " + localDateTime.format(dateFormatter));
         System.out.println("Time: " + localDateTime.format(timeFormatter));
 
-        System.out.println("\n=================================");
-        System.out.print("Press Enter to go back...");
-        Functions.getChoiceInString();
-        Functions.clearConsole();
+        pressEnterDisplay();
     }
 
     private void statisticsSelected() {
@@ -135,6 +134,10 @@ public class Report implements Menu{
         System.out.println("Gross Amount: " + String.format("%,.2f", grossAmount) + "\n");
         System.out.println("Estimated Net Amount: " + String.format("%,.2f", (grossAmount * 0.12)));
 
+        pressEnterDisplay();
+    }
+
+    private void pressEnterDisplay() {
         System.out.println("\n=================================");
         System.out.print("Press Enter to go back...");
         Functions.getChoiceInString();

@@ -2,8 +2,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class NewTransaction extends Inventory{
-    ArrayList<Item> cart = new ArrayList<>();
+public class NewTransaction extends Inventory {
+    private ArrayList<Item> cart = new ArrayList<>();
 
     @Override
     public void choices() {
@@ -80,25 +80,12 @@ public class NewTransaction extends Inventory{
             Item item = new Item();
             item = databaseHelper.getItem(Integer.parseInt(choice));
             
-            if (item.getProductName() == null)
-                System.out.println("Invalid Item ID!");
-            else {
-                int quantity = 0;
-                while (true) {
-                    System.out.println(item.getProductName() + " -> Php." + item.getPrice());
-                    System.out.print("Quantity: ");
-                    quantity = Functions.getChoice();
-
-                    if (quantity > 0 & quantity <= item.getStock())
-                        break;
-                    else
-                        System.out.println("\nOut of stock!");
-                }
-                // Make sure quantity is valid before adding the item
-                item.setQuantity(quantity);
-                cart.add(item);
+            if (item.getProductName() != null) {
+                addItemToCart(item);
                 Functions.clearConsole();
             }
+            else
+                System.out.println("Invalid Item ID!");
         } catch (Exception e) {
             Functions.clearConsole();
             System.out.println("Invalid Item ID!");
@@ -113,20 +100,21 @@ public class NewTransaction extends Inventory{
             System.out.print("Quantity: ");
             quantity = Functions.getChoice();
 
-            // Limit the item quantity to 1 - 200
-            if (quantity > 0 & quantity <= item.getStock()) {
-                Functions.clearConsole();
-                break;
+            if (quantity > 0) {
+                if (quantity <= item.getStock()) {
+                    Functions.clearConsole();
+                    break;
+                }
+                else
+                    System.out.println("\nInsuficient Stock!");
             }
             else
-                System.out.println("\nOut of stock!");
+                System.out.println("\nInvalid Quantity!");
         }
         // Make sure quantity is valid before adding the item
         item.setQuantity(quantity);
         cart.add(item);
     }
-
-    
 
     private void searchSelected() {
         int classification = 0;
@@ -205,12 +193,9 @@ public class NewTransaction extends Inventory{
 
         float cash = 0;
         float totalPrice = totalPrice();
-
+        
         Functions.clearConsole();
-        System.out.println("=============== R E C E I P T ===============");
-        System.out.println("POSsys By Al Hans Gaming");
-        System.out.println("Laguna State Polytechnic University");
-        System.out.println("San Gabriel, San Pablo City, Laguna\n");
+        displayReceiptHeader();
         listItems();
 
         while (true) {
@@ -240,12 +225,7 @@ public class NewTransaction extends Inventory{
             transactionId = databaseHelper.saveTransaction(cart, cash, totalPrice);
 
             Functions.clearConsole();
-            System.out.println("=============== R E C E I P T ===============");
-            System.out.println("POSsys By Al Hans Gaming");
-            System.out.println("BS Computer Science - Section 2A");
-            System.out.println("Laguna State Polytechnic University");
-            System.out.println("San Gabriel, San Pablo City, Laguna\n");
-            
+            displayReceiptHeader();
             listItems();
 
             System.out.print("CASH: " + String.format("%,.2f", cash));
@@ -257,14 +237,11 @@ public class NewTransaction extends Inventory{
             System.out.println("\nPOS Transaction ID: " + transactionId);
             System.out.println("Date: " + LocalDateTime.now().format(dateFormatter));
             System.out.println("Time: " + LocalDateTime.now().format(timeFormatter));
-            
-            System.out.println("\nThank you for your purchase.");
-            System.out.println("If you are not satisfied with the");
-            System.out.println("performance of our product, you can");
-            System.out.println("return it along with its warranty.");
+
+            displayReceiptFooter();
         }
 
-        System.out.println("\n\n_________________________________________");
+        System.out.println("_________________________________________");
         System.out.print("Press Enter to proceed...");
         Functions.getChoiceInString();
         Functions.clearConsole();
@@ -278,5 +255,20 @@ public class NewTransaction extends Inventory{
             totalPrice += item.getPrice() * item.getQuantity();
         }
         return totalPrice;
+    }
+
+    private void displayReceiptHeader() {
+        System.out.println("=============== R E C E I P T ===============");
+        System.out.println("POSsys By Al Hans Gaming");
+        System.out.println("BS Computer Science - Section 2A");
+        System.out.println("Laguna State Polytechnic University");
+        System.out.println("San Gabriel, San Pablo City, Laguna\n");
+    }
+
+    private void displayReceiptFooter() {
+        System.out.println("\nThank you for your purchase.");
+        System.out.println("If you are not satisfied with the");
+        System.out.println("performance of our product, you can");
+        System.out.println("return it along with its warranty.\n\n");
     }
 }

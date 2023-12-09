@@ -1,4 +1,4 @@
-public class MainMenu implements Menu{
+public class MainMenu implements Menu {
     @Override
     public void choices() {
         while (true) {

@@ -9,14 +9,13 @@ import java.util.ArrayList;
 
 public class DatabaseHelper {
     private final static String url = "jdbc:sqlite:data/AHG-BSCS-POS-System.db";
+    private Connection connection = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
 
     public Item getItem(int itemId) {
-        // Instantiate here to be access by finally statement
-        Item item = new Item();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "SELECT * FROM item WHERE item_pk = " + itemId + " LIMIT 1";
+        Item item = new Item();
         
         try {
             connection = DriverManager.getConnection(url);
@@ -37,6 +36,7 @@ public class DatabaseHelper {
             try {
                 // Close to prevent memory leaks
                 if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
 
             } catch (SQLException e) {
@@ -48,9 +48,6 @@ public class DatabaseHelper {
 
     public ArrayList<Item> getItems(int classification) {
         ArrayList<Item> items = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "SELECT * FROM item WHERE classification_id = " + classification;
         
         try {
@@ -73,6 +70,7 @@ public class DatabaseHelper {
             try {
                 // Close to prevent memory leaks
                 if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
 
             } catch (SQLException e) {
@@ -83,11 +81,7 @@ public class DatabaseHelper {
     }
 
     public int saveTransaction(ArrayList<Item> items, float cash, float totalPrice) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         int generatedKey = 0;
-
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm:ss a");
         String transactionSql = "INSERT INTO transactions (employee_id, branch_id, date_time, total_price, cash, change) " +
                     "VALUES(?, ?, ?, ?, ?, ?)";
@@ -97,6 +91,7 @@ public class DatabaseHelper {
         try {
             connection = DriverManager.getConnection(url);
             preparedStatement = connection.prepareStatement(transactionSql);
+
             preparedStatement.setInt(1, 1);
             preparedStatement.setInt(2, 1);
             preparedStatement.setString(3, LocalDateTime.now().format(dateTimeFormatter));
@@ -133,6 +128,8 @@ public class DatabaseHelper {
         } finally {
             try {
                 // Close to prevent memory leaks
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
 
             } catch (SQLException e) {
@@ -144,9 +141,6 @@ public class DatabaseHelper {
 
     public ArrayList<Transaction> getTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "SELECT * FROM transactions";
         
         try {
@@ -171,6 +165,7 @@ public class DatabaseHelper {
             try {
                 // Close to prevent memory leaks
                 if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
 
             } catch (SQLException e) {
@@ -182,9 +177,6 @@ public class DatabaseHelper {
 
     public ArrayList<TransactionItem> getTransactionItem(int transactionId) {
         ArrayList<TransactionItem> transactionItems = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "SELECT * FROM transaction_item WHERE transaction_id = " + transactionId;
         
         try {
@@ -207,6 +199,7 @@ public class DatabaseHelper {
             try {
                 // Close to prevent memory leaks
                 if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
 
             } catch (SQLException e) {
@@ -217,11 +210,8 @@ public class DatabaseHelper {
     }
 
     public int countTableRow(String tableName) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        int count = 0;
         String sql = "SELECT COUNT (*) FROM " + tableName;
+        int count = 0;
         
         try {
             connection = DriverManager.getConnection(url);
@@ -237,6 +227,7 @@ public class DatabaseHelper {
             try {
                 // Close to prevent memory leaks
                 if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
 
             } catch (SQLException e) {
@@ -247,11 +238,8 @@ public class DatabaseHelper {
     }
 
     public double getGrossAmount() {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        double grossAmount = 0;
         String sql = "SELECT total_price FROM transactions";
+        double grossAmount = 0;
         
         try {
             connection = DriverManager.getConnection(url);
@@ -267,6 +255,7 @@ public class DatabaseHelper {
             try {
                 // Close to prevent memory leaks
                 if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
 
             } catch (SQLException e) {

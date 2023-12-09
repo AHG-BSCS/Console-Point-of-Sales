@@ -2,7 +2,8 @@ import java.util.Scanner;
 
 public class Functions {
     private static Scanner scanner;
-    static void clearConsole() {
+
+    public static void clearConsole() {
         final String os = System.getProperty("os.name");
 
         try {
@@ -21,7 +22,6 @@ public class Functions {
         try {
             choice = scanner.nextInt();
         } catch (Exception e) {}
-
         return choice;
     }
 
@@ -32,7 +32,6 @@ public class Functions {
         try {
             choice = scanner.nextLine();
         } catch (Exception e) {}
-
         return choice;
     }
 }

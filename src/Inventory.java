@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Inventory implements Menu{
+public class Inventory implements Menu {
     @Override
     public void choices() {
         while (true) {
