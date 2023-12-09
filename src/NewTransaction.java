@@ -242,6 +242,7 @@ public class NewTransaction {
             Functions.clearConsole();
             System.out.println("=============== R E C E I P T ===============");
             System.out.println("POSsys By Al Hans Gaming");
+            System.out.println("BS Computer Science - Section 2A");
             System.out.println("Laguna State Polytechnic University");
             System.out.println("San Gabriel, San Pablo City, Laguna\n");
             
