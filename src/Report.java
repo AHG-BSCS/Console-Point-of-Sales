@@ -26,11 +26,11 @@ public class Report implements Menu{
                 return true;
             case 1:
                 Functions.clearConsole();
-                listOfTransaction();
+                listOfTransactionSelected();
                 break;
             case 2:
                 Functions.clearConsole();
-                statistics();
+                statisticsSelected();
                 break;
             default:
                 Functions.clearConsole();
@@ -39,54 +39,58 @@ public class Report implements Menu{
         return false;
     }
 
-    public void listOfTransaction() {
+    private void listOfTransactionSelected() {
         while (true) {
             ArrayList<Transaction> transactions = new ArrayList<>();
-            ArrayList<TransactionItem> transactionItems = new ArrayList<>();
             DatabaseHelper databaseHelper = new DatabaseHelper();
-            transactions = databaseHelper.getTransactions();
 
-            // List all the transactions
-            for (Transaction transaction : transactions) {
-                System.out.println("[" + transaction.getTransactionPk() + "] " + 
-                                    transaction.getDateTime() + " -> " + 
-                                    transaction.getTotalPrice() + "\n");
+            transactions = databaseHelper.getTransactions();
+            listTrasactions(transactions);
+            validateTrasaction(transactions, databaseHelper);
+        }
+    }
+
+    private void listTrasactions(ArrayList<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
+            System.out.println("[" + transaction.getTransactionPk() + "] " + 
+                                transaction.getDateTime() + " -> " + 
+                                transaction.getTotalPrice() + "\n");
+        }
+    }
+
+    private void validateTrasaction(ArrayList<Transaction> transactions, DatabaseHelper databaseHelper) {
+        ArrayList<TransactionItem> transactionItems = new ArrayList<>();
+
+        while (true) {
+            System.out.println("\n[0] Back");
+            System.out.print("Transaction ID: ");
+            
+            Transaction selectedTransaction = new Transaction();
+            int transactionId = Functions.getChoice();
+
+            if (transactionId == 0) {
+                Functions.clearConsole();
+                return;
             }
 
-            while (true) {
-                System.out.println("\n[0] Back");
-                System.out.print("Transaction ID: ");
-                
-                Transaction selectedTransaction = new Transaction();
-                int transactionId = Functions.getChoice();
-                boolean transactionExist = false;
-
-                if (transactionId == 0) {
-                    Functions.clearConsole();
-                    return;
-                }
-
-                for (Transaction transaction : transactions) {
-                    if (transaction.getTransactionPk() == transactionId) {
-                        transactionExist = true;
-                        selectedTransaction = transaction;
-                        break;
-                    }
-                }
-
-                if (transactionExist) {
-                    transactionItems = databaseHelper.getTransactionItem(transactionId);
-                    displayTransaction(selectedTransaction, transactionItems, databaseHelper);
+            for (Transaction transaction : transactions) {
+                if (transaction.getTransactionPk() == transactionId) {
+                    selectedTransaction = transaction;
                     break;
                 }
-                else {
-                    Functions.clearConsole();
-                    System.out.println("Transaction does not exist!\n");
-                    break;
-                }
+            }
+
+            if (selectedTransaction.getDateTime() != null) {
+                transactionItems = databaseHelper.getTransactionItem(transactionId);
+                displayTransaction(selectedTransaction, transactionItems, databaseHelper);
+                break;
+            }
+            else {
+                Functions.clearConsole();
+                System.out.println("Transaction does not exist!\n");
+                break;
             }
         }
-        
     }
 
     private void displayTransaction(Transaction transaction, ArrayList<TransactionItem> transactionItems, DatabaseHelper databaseHelper) {
@@ -121,7 +125,7 @@ public class Report implements Menu{
         Functions.clearConsole();
     }
 
-    public void statistics() {
+    private void statisticsSelected() {
         DatabaseHelper databaseHelper = new DatabaseHelper();
         double grossAmount = databaseHelper.getGrossAmount();
 

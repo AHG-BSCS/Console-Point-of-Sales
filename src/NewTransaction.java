@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class NewTransaction implements Menu{
+public class NewTransaction extends Inventory{
     ArrayList<Item> cart = new ArrayList<>();
 
     @Override
@@ -23,19 +23,19 @@ public class NewTransaction implements Menu{
         switch (choice) {
             case "S":
                 Functions.clearConsole();
-                search();
+                searchSelected();
                 return false;
             case "s":
                 Functions.clearConsole();
-                search();
+                searchSelected();
                 return false;
             case "R":
                 Functions.clearConsole();
-                receipt();
+                receiptSelected();
                 return false;
             case "r":
                 Functions.clearConsole();
-                receipt();
+                receiptSelected();
                 return false;
             case "C":
                 Functions.clearConsole();
@@ -52,7 +52,29 @@ public class NewTransaction implements Menu{
                 Functions.clearConsole();
                 return true;
         }
-        
+        retrieveItem(choice);
+        return false;
+    }
+
+    private void listItems() {
+        if (cart.size() != 0) {
+            System.out.println("================= I T E M S =================");
+            double totalAmount = 0;
+
+            for (Item item : cart) {
+                totalAmount += item.getPrice() * item.getQuantity();
+
+                System.out.println(item.getProduct());
+                System.out.println(item.getQuantity() + " pc * " + 
+                                    String.format("%,.2f", item.getPrice()) + " = " + 
+                                    String.format("%,.2f", (item.getPrice() * item.getQuantity())));
+            }
+            System.out.println("____________________________________________");
+            System.out.println("TOTAL: " + String.format("%,.2f", totalAmount));
+        }
+    }
+
+    private void retrieveItem(String choice) {
         try {
             DatabaseHelper databaseHelper = new DatabaseHelper();
             Item item = new Item();
@@ -67,7 +89,6 @@ public class NewTransaction implements Menu{
                     System.out.print("Quantity: ");
                     quantity = Functions.getChoice();
 
-                    // Limit the item quantity to 1 - 200
                     if (quantity > 0 & quantity <= item.getStock())
                         break;
                     else
@@ -82,10 +103,9 @@ public class NewTransaction implements Menu{
             Functions.clearConsole();
             System.out.println("Invalid Item ID!");
         }
-        return false;
     }
 
-    public void addItemToCart(Item item) {
+    private void addItemToCart(Item item) {
         int quantity = 0;
 
         while (true) {
@@ -106,25 +126,9 @@ public class NewTransaction implements Menu{
         cart.add(item);
     }
 
-    public void listItems() {
-        if (cart.size() != 0) {
-            System.out.println("================= I T E M S =================");
-            double totalAmount = 0;
+    
 
-            for (Item item : cart) {
-                totalAmount += item.getPrice() * item.getQuantity();
-
-                System.out.println(item.getProduct());
-                System.out.println(item.getQuantity() + " pc * " + 
-                                    String.format("%,.2f", item.getPrice()) + " = " + 
-                                    String.format("%,.2f", (item.getPrice() * item.getQuantity())));
-            }
-            System.out.println("____________________________________________");
-            System.out.println("TOTAL: " + String.format("%,.2f", totalAmount));
-        }
-    }
-
-    public void search() {
+    private void searchSelected() {
         int classification = 0;
 
         while (true) {
@@ -150,13 +154,8 @@ public class NewTransaction implements Menu{
                 return;
             }
             else if (classification > 0 & classification < 13) {
-                Functions.clearConsole();
-                ArrayList<Item> items = new ArrayList<>();
-                DatabaseHelper databaseHelper = new DatabaseHelper();
-
-                items = databaseHelper.getItems(classification);
-                new Inventory().displayItems(items);
-                validateItem(items);
+                validateItem(displayItems(classification), classification);
+                return;
             }
             else {
                 Functions.clearConsole();
@@ -165,7 +164,7 @@ public class NewTransaction implements Menu{
         }
     }
 
-    private void validateItem(ArrayList<Item> items) {
+    private void validateItem(ArrayList<Item> items, int classification) {
         while (true) {
             System.out.println("\n[0] Back");
             System.out.print("Item ID: ");
@@ -193,12 +192,12 @@ public class NewTransaction implements Menu{
             else {
                 Functions.clearConsole();
                 System.out.println("Item does not exist in the list!");
-                new Inventory().displayItems(items);
+                displayItems(classification);
             }
         }
     }
 
-    public void receipt() {
+    private void receiptSelected() {
         if (cart.size() == 0) {
             System.out.println("No Item!");
             return;
@@ -272,7 +271,7 @@ public class NewTransaction implements Menu{
         cart.clear();
     }
 
-    public float totalPrice() {
+    private float totalPrice() {
         float totalPrice = 0;
 
         for (Item item : cart) {

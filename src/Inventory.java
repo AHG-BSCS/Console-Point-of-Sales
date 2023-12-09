@@ -39,10 +39,7 @@ public class Inventory implements Menu{
             // Dont return to keep looping
         }
         else if (classification > 0 & classification < 13) {
-            // Retrieve and display all items for specific classification
-            Functions.clearConsole();
-            DatabaseHelper databaseHelper = new DatabaseHelper();
-            displayItems(databaseHelper.getItems(classification));
+            displayItems(classification);
 
             System.out.print("Press Enter to go back...");
             Functions.getChoiceInString();
@@ -92,12 +89,19 @@ public class Inventory implements Menu{
         System.out.println("_________________________________________________");
     }
 
-    public void displayItems(ArrayList<Item> items) {
+    public ArrayList<Item> displayItems(int classification) {
+        // Retrieve and display all items for specific classification
+        Functions.clearConsole();
+        ArrayList<Item> items = new ArrayList<>();
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        items = databaseHelper.getItems(classification);
+
         for (Item item : items) {
             System.out.println("[" + item.getItemPk() + "] " + item.getProduct());
             System.out.println("Price: Php." + String.format("%,.2f", item.getPrice()));
             System.out.println("Stock: " + item.getStock() + "pc");
             System.out.println("_________________________________________________");
         }
+        return items;        
     }
 }

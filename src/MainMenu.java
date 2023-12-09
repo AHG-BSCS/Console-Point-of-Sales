@@ -36,7 +36,7 @@ public class MainMenu implements Menu{
                 break;
             case 4:
                 Functions.clearConsole();
-                System.out.println("Transactions Ended\n");
+                System.out.println("Transactions Ended");
                 return true;
             default:
                 Functions.clearConsole();
