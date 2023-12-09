@@ -210,4 +210,64 @@ public class DatabaseHelper {
         }
         return transactionItems;
     }
+
+    public int countTableRow(String tableName) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int count = 0;
+        String sql = "SELECT COUNT (*) FROM " + tableName;
+        
+        try {
+            connection = DriverManager.getConnection(url);
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getByte(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                // Close to prevent memory leaks
+                if (resultSet != null) resultSet.close();
+                if (connection != null) connection.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return count;
+    }
+
+    public double getGrossAmount() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        double grossAmount = 0;
+        String sql = "SELECT total_price FROM transactions";
+        
+        try {
+            connection = DriverManager.getConnection(url);
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                grossAmount += resultSet.getFloat("total_price");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                // Close to prevent memory leaks
+                if (resultSet != null) resultSet.close();
+                if (connection != null) connection.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return grossAmount;
+    }
 }

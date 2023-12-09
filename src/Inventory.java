@@ -22,7 +22,7 @@ public class Inventory {
                 System.out.println("[12] Accessory");
                 System.out.println("[13] Search");
                 System.out.println("[0] Back");
-                System.out.print("\nClassification: ");
+                System.out.print("\nClassification #: ");
 
                 classification = Functions.getChoice();
 

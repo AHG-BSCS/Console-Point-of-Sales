@@ -8,6 +8,7 @@ public class Report {
             System.out.println("[1] List of Transaction");
             System.out.println("[2] Statistics");
             System.out.println("[0] Back");
+            System.out.print("Report #: ");
 
             if (selection())
                 break;
@@ -119,6 +120,18 @@ public class Report {
     }
 
     public void statistics() {
-        
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        double grossAmount = databaseHelper.getGrossAmount();
+
+        System.out.println("====== S T A T I S T I C S ======\n");
+        System.out.println("Items Sold: " + databaseHelper.countTableRow("transaction_item") + "\n");
+        System.out.println("Registered Transactions: " + databaseHelper.countTableRow("transactions") + "\n");
+        System.out.println("Gross Amount: " + String.format("%,.2f", grossAmount) + "\n");
+        System.out.println("Estimated Net Amount: " + String.format("%,.2f", (grossAmount * 0.12)));
+
+        System.out.println("\n=================================");
+        System.out.print("Press Enter to go back...");
+        Functions.getChoiceInString();
+        Functions.clearConsole();
     }
 }

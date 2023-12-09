@@ -8,7 +8,7 @@ public class NewTransaction {
     public void startNewTransac() {
         while (true) {
             listItems();
-            System.out.println("[S] Search  [R] Receipt  [C] Clear  [B] Back");
+            System.out.println("\n[S] Search  [R] Receipt  [C] Clear  [B] Back");
             System.out.print("Item ID: ");
 
             if (selection()) break;
@@ -106,15 +106,19 @@ public class NewTransaction {
 
     public void listItems() {
         if (cart.size() != 0) {
-            System.out.println("============ I T E M S ============");
+            System.out.println("================= I T E M S =================");
+            double totalAmount = 0;
 
             for (Item item : cart) {
+                totalAmount += item.getPrice() * item.getQuantity();
+
                 System.out.println(item.getProduct());
                 System.out.println(item.getQuantity() + " pc * " + 
-                                    item.getPrice() + " = " + 
-                                    (item.getPrice() * item.getQuantity()));
+                                    String.format("%,.2f", item.getPrice()) + " = " + 
+                                    String.format("%,.2f", (item.getPrice() * item.getQuantity())));
             }
-            System.out.println();
+            System.out.println("____________________________________________");
+            System.out.println("TOTAL: " + String.format("%,.2f", totalAmount));
         }
     }
 
@@ -135,7 +139,7 @@ public class NewTransaction {
             System.out.println("[11] Microphone");
             System.out.println("[12] Accessory");
             System.out.println("[0] Back");
-            System.out.print("\nClassification: ");
+            System.out.print("\nClassification #: ");
 
             classification = Functions.getChoice();
 
@@ -203,13 +207,11 @@ public class NewTransaction {
         float totalPrice = totalPrice();
 
         Functions.clearConsole();
-        System.out.println("========== R E C E I P T ==========");
+        System.out.println("=============== R E C E I P T ===============");
         System.out.println("POSsys By Al Hans Gaming");
         System.out.println("Laguna State Polytechnic University");
         System.out.println("San Gabriel, San Pablo City, Laguna\n");
         listItems();
-
-        System.out.println("TOTAL : " + String.format("%,.2f", totalPrice));
 
         while (true) {
             System.out.println("\n[0] Cancel");
@@ -238,14 +240,13 @@ public class NewTransaction {
             transactionId = databaseHelper.saveTransaction(cart, cash, totalPrice);
 
             Functions.clearConsole();
-            System.out.println("========== R E C E I P T ==========");
+            System.out.println("=============== R E C E I P T ===============");
             System.out.println("POSsys By Al Hans Gaming");
             System.out.println("Laguna State Polytechnic University");
             System.out.println("San Gabriel, San Pablo City, Laguna\n");
             
             listItems();
 
-            System.out.println("TOTAL : " + String.format("%,.2f", totalPrice));
             System.out.print("CASH: " + String.format("%,.2f", cash));
             System.out.println("\nCHANGE: " + String.format("%,.2f", (cash - totalPrice)));
 
@@ -262,7 +263,7 @@ public class NewTransaction {
             System.out.println("return it along with its warranty.");
         }
 
-        System.out.println("\n\n=================================");
+        System.out.println("\n\n_________________________________________");
         System.out.print("Press Enter to proceed...");
         Functions.getChoiceInString();
         Functions.clearConsole();
