@@ -9,8 +9,11 @@ public class NewTransaction extends Inventory {
     public void choices() {
         while (true) {
             listItems();
-            System.out.println("\n[S] Search  [R] Receipt  [C] Clear  [B] Back");
-            System.out.print("Item ID: ");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "\n[S]" + Terminal.DEFAULT + " Search  " +
+                            Terminal.BOLD + Terminal.GREEN + "[R]" + Terminal.DEFAULT + " Receipt  " +
+                            Terminal.BOLD + Terminal.GREEN + "[C]" + Terminal.DEFAULT + " Clear  " +
+                            Terminal.BOLD + Terminal.GREEN + "[B]" + Terminal.DEFAULT + " Back");
+            System.out.print(Terminal.GREEN + "Item ID: " + Terminal.DEFAULT);
 
             if (select()) break;
         }
@@ -58,7 +61,7 @@ public class NewTransaction extends Inventory {
 
     private void listItems() {
         if (cart.size() != 0) {
-            System.out.println("================= I T E M S =================");
+            System.out.println(Terminal.BOLD + Terminal.YELLOW + "================= I T E M S =================" + Terminal.DEFAULT);
             double totalAmount = 0;
 
             for (Item item : cart) {
@@ -70,7 +73,7 @@ public class NewTransaction extends Inventory {
                                     String.format("%,.2f", (item.getPrice() * item.getQuantity())));
             }
             System.out.println("____________________________________________");
-            System.out.println("TOTAL: " + String.format("%,.2f", totalAmount));
+            System.out.println(Terminal.BOLD + Terminal.BLUE + "TOTAL: " + Terminal.DEFAULT + String.format("%,.2f", totalAmount));
         }
     }
 
@@ -85,10 +88,10 @@ public class NewTransaction extends Inventory {
                 Functions.clearConsole();
             }
             else
-                System.out.println("Invalid Item ID!");
+                System.out.println(Terminal.RED + "Invalid Item ID!" + Terminal.DEFAULT);
         } catch (Exception e) {
             Functions.clearConsole();
-            System.out.println("Invalid Item ID!");
+            System.out.println(Terminal.RED + "Invalid Item ID!" + Terminal.DEFAULT);
         }
     }
 
@@ -97,7 +100,7 @@ public class NewTransaction extends Inventory {
 
         while (true) {
             System.out.println(item.getProductName());
-            System.out.print("Quantity: ");
+            System.out.print(Terminal.GREEN + "Quantity: " + Terminal.DEFAULT);
             quantity = Functions.getChoice();
 
             if (quantity > 0) {
@@ -106,10 +109,10 @@ public class NewTransaction extends Inventory {
                     break;
                 }
                 else
-                    System.out.println("\nInsuficient Stock!");
+                    System.out.println(Terminal.RED + "\nInsuficient Stock!" + Terminal.DEFAULT);
             }
             else
-                System.out.println("\nInvalid Quantity!");
+                System.out.println(Terminal.RED + "\nInvalid Quantity!" + Terminal.DEFAULT);
         }
         // Make sure quantity is valid before adding the item
         item.setQuantity(quantity);
@@ -120,20 +123,20 @@ public class NewTransaction extends Inventory {
         int classification = 0;
 
         while (true) {
-            System.out.println("[1] Processor");
-            System.out.println("[2] Graphics Card");
-            System.out.println("[3] Memory");
-            System.out.println("[4] Storage");
-            System.out.println("[5] Motherboard");
-            System.out.println("[6] Power Supply");
-            System.out.println("[7] Fans/Cooler");
-            System.out.println("[8] Keyboard");
-            System.out.println("[9] Mice");
-            System.out.println("[10] Headset");
-            System.out.println("[11] Microphone");
-            System.out.println("[12] Accessory");
-            System.out.println("[0] Back");
-            System.out.print("\nClassification #: ");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " Processor");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Graphics Card");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[3]" + Terminal.DEFAULT + " Memory");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[4]" + Terminal.DEFAULT + " Storage");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[5]" + Terminal.DEFAULT + " Motherboard");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[6]" + Terminal.DEFAULT + " Power Supply");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[7]" + Terminal.DEFAULT + " Fans/Cooler");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[8]" + Terminal.DEFAULT + " Keyboard");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[9]" + Terminal.DEFAULT + " Mice");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[10]" + Terminal.DEFAULT + " Headset");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[11]" + Terminal.DEFAULT + " Microphone");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[12]" + Terminal.DEFAULT + " Accessory");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[0]" + Terminal.DEFAULT + " Back");
+            System.out.print(Terminal.GREEN + "\nClassification #: " + Terminal.DEFAULT);
 
             classification = Functions.getChoice();
 
@@ -147,15 +150,15 @@ public class NewTransaction extends Inventory {
             }
             else {
                 Functions.clearConsole();
-                System.out.println("Invalid Classification!\n");
+                System.out.println(Terminal.RED + "Invalid Classification!\n" + Terminal.DEFAULT);
             }
         }
     }
 
     private void validateItem(ArrayList<Item> items, int classification) {
         while (true) {
-            System.out.println("\n[0] Back");
-            System.out.print("Item ID: ");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "\n[0]" + Terminal.DEFAULT + " Back");
+            System.out.print(Terminal.GREEN + "Item ID: " + Terminal.DEFAULT);
             
             Item seachedItem = new Item();
             int itemId = Functions.getChoice();
@@ -179,7 +182,7 @@ public class NewTransaction extends Inventory {
             }
             else {
                 Functions.clearConsole();
-                System.out.println("Item does not exist in the list!");
+                System.out.println(Terminal.RED + "Item does not exist in the list!" + Terminal.DEFAULT);
                 displayItems(classification);
             }
         }
@@ -187,7 +190,7 @@ public class NewTransaction extends Inventory {
 
     private void receiptSelected() {
         if (cart.size() == 0) {
-            System.out.println("No Item!");
+            System.out.println(Terminal.RED + "No Item!" + Terminal.DEFAULT);
             return;
         }
 
@@ -199,8 +202,8 @@ public class NewTransaction extends Inventory {
         listItems();
 
         while (true) {
-            System.out.println("\n[0] Cancel");
-            System.out.print("CASH: ");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "\n[0]" + Terminal.DEFAULT + " Cancel");
+            System.out.print(Terminal.GREEN + "CASH: " + Terminal.DEFAULT);
 
             cash = Functions.getChoice();
 
@@ -212,7 +215,7 @@ public class NewTransaction extends Inventory {
             if (cash > 0 & cash < 1_000_000 & cash > totalPrice)
                 break;
             else
-                System.out.println("Invalid Amount!");
+                System.out.println(Terminal.RED + "Invalid Amount!" + Terminal.DEFAULT);
         }
 
         if (cash > 0 & cash < 1_000_000 & cash > totalPrice) {
@@ -228,21 +231,21 @@ public class NewTransaction extends Inventory {
             displayReceiptHeader();
             listItems();
 
-            System.out.print("CASH: " + String.format("%,.2f", cash));
-            System.out.println("\nCHANGE: " + String.format("%,.2f", (cash - totalPrice)));
+            System.out.print(Terminal.BOLD + "CASH: " + Terminal.DEFAULT + String.format("%,.2f", cash));
+            System.out.println(Terminal.BOLD + "\nCHANGE: " + Terminal.DEFAULT + String.format("%,.2f", (cash - totalPrice)));
 
-            System.out.println("\nVatable Sales: " + String.format("%,.2f", totalPrice));
-            System.out.println("Vat Amount: " + String.format("%,.2f", (totalPrice * 0.12)));
+            System.out.println(Terminal.BOLD + "\nVatable Sales: " + Terminal.DEFAULT + String.format("%,.2f", totalPrice));
+            System.out.println(Terminal.BOLD + "Vat Amount: " + Terminal.DEFAULT + String.format("%,.2f", (totalPrice * 0.12)));
 
-            System.out.println("\nPOS Transaction ID: " + transactionId);
-            System.out.println("Date: " + LocalDateTime.now().format(dateFormatter));
-            System.out.println("Time: " + LocalDateTime.now().format(timeFormatter));
+            System.out.println(Terminal.BOLD + "\nPOS Transaction ID: " + transactionId);
+            System.out.println(Terminal.BOLD + "Date: " + Terminal.DEFAULT + LocalDateTime.now().format(dateFormatter));
+            System.out.println(Terminal.BOLD + "Time: " + Terminal.DEFAULT + LocalDateTime.now().format(timeFormatter));
 
             displayReceiptFooter();
         }
 
         System.out.println("_________________________________________");
-        System.out.print("Press Enter to proceed...");
+        System.out.print(Terminal.BLUE + "Press Enter to proceed..." + Terminal.DEFAULT);
         Functions.getChoiceInString();
         Functions.clearConsole();
         cart.clear();
@@ -258,11 +261,11 @@ public class NewTransaction extends Inventory {
     }
 
     private void displayReceiptHeader() {
-        System.out.println("=============== R E C E I P T ===============");
-        System.out.println("POSsys By Al Hans Gaming");
+        System.out.println(Terminal.BOLD + Terminal.YELLOW + "=============== R E C E I P T ===============" + Terminal.DEFAULT);
+        System.out.println(Terminal.BOLD + "POSsys By Al Hans Gaming");
         System.out.println("BS Computer Science - Section 2A");
         System.out.println("Laguna State Polytechnic University");
-        System.out.println("San Gabriel, San Pablo City, Laguna\n");
+        System.out.println("San Gabriel, San Pablo City, Laguna\n" + Terminal.DEFAULT);
     }
 
     private void displayReceiptFooter() {

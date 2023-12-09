@@ -2,13 +2,13 @@ public class MainMenu implements Menu {
     @Override
     public void choices() {
         while (true) {
-            System.out.println("\033[33mPOSsys - A Point of Sale Console System");
-            System.out.println("By Al Hans Gaming\033[0m\n");
-            System.out.println("\033[44m[1]\033[0m New Transaction");
-            System.out.println("\033[44m[2]\033[0m Inventory");
-            System.out.println("\033[44m[3]\033[0m Report");
-            System.out.println("\033[44m[4]\033[0m Exit");
-            System.out.print("\n\033[34mTransaction #: \033[0m");
+            System.out.println(Terminal.BOLD + Terminal.YELLOW + "POSsys - A Point of Sale Console System");
+            System.out.println("By Al Hans Gaming\n" + Terminal.DEFAULT);
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " New Transaction");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Inventory");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[3]" + Terminal.DEFAULT + " Report");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[4]" + Terminal.DEFAULT + " Exit");
+            System.out.print(Terminal.GREEN + "\nTransaction #: " + Terminal.DEFAULT);
 
             if (select()) break;
         }
@@ -36,11 +36,11 @@ public class MainMenu implements Menu {
                 break;
             case 4:
                 Functions.clearConsole();
-                System.out.println("Transactions Ended");
+                System.out.println(Terminal.RED + "Transactions Ended" + Terminal.DEFAULT);
                 return true;
             default:
                 Functions.clearConsole();
-                System.out.println("Invalid Transaction!\n");
+                System.out.println(Terminal.RED + "Invalid Transaction!\n" + Terminal.DEFAULT);
         }
         return false;
     }

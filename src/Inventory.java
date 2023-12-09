@@ -4,22 +4,21 @@ public class Inventory implements Menu {
     @Override
     public void choices() {
         while (true) {
-            System.out.println("=== I N V E N T O R Y ===\n");
-            System.out.println("[1] Processor");
-            System.out.println("[2] Graphics Card");
-            System.out.println("[3] Memory");
-            System.out.println("[4] Storage");
-            System.out.println("[5] Motherboard");
-            System.out.println("[6] Power Supply");
-            System.out.println("[7] Fans / Cooler");
-            System.out.println("[8] Keyboard");
-            System.out.println("[9] Mice");
-            System.out.println("[10] Headset");
-            System.out.println("[11] Microphone");
-            System.out.println("[12] Accessory");
-            System.out.println("[13] Search");
-            System.out.println("[0] Back");
-            System.out.print("\nClassification #: ");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " Processor");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Graphics Card");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[3]" + Terminal.DEFAULT + " Memory");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[4]" + Terminal.DEFAULT + " Storage");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[5]" + Terminal.DEFAULT + " Motherboard");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[6]" + Terminal.DEFAULT + " Power Supply");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[7]" + Terminal.DEFAULT + " Fans/Cooler");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[8]" + Terminal.DEFAULT + " Keyboard");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[9]" + Terminal.DEFAULT + " Mice");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[10]" + Terminal.DEFAULT + " Headset");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[11]" + Terminal.DEFAULT + " Microphone");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[12]" + Terminal.DEFAULT + " Accessory");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[13]" + Terminal.DEFAULT + " Search");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[0]" + Terminal.DEFAULT + " Back");
+            System.out.print(Terminal.GREEN + "\nClassification #: " + Terminal.DEFAULT);
 
             if (select()) break;
         }
@@ -40,14 +39,11 @@ public class Inventory implements Menu {
         }
         else if (classification > 0 & classification < 13) {
             displayItems(classification);
-
-            System.out.print("Press Enter to go back...");
-            Functions.getChoiceInString();
-            Functions.clearConsole();
+            pressEnterDisplay();
         }
         else {
             Functions.clearConsole();
-            System.out.println("Invalid Classification\n");
+            System.out.println(Terminal.RED + "Invalid Classification\n" + Terminal.DEFAULT);
         }
         return false;
     }
@@ -57,8 +53,8 @@ public class Inventory implements Menu {
             DatabaseHelper databaseHelper = new DatabaseHelper();
             Item item = new Item();
 
-            System.out.println("[0] Back");
-            System.out.print("Item ID: ");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[0]" + Terminal.DEFAULT + " Back");
+            System.out.print(Terminal.GREEN + "Item ID: " + Terminal.DEFAULT);
             int choice = Functions.getChoice();
             item = databaseHelper.getItem(choice);
 
@@ -69,23 +65,20 @@ public class Inventory implements Menu {
             else if (item.getProductName() != null) {
                 Functions.clearConsole();
                 displayItem(item);
-
-                System.out.print("Press Enter to go back...");
-                Functions.getChoiceInString();
-                Functions.clearConsole();
+                pressEnterDisplay();
                 break;
             }
             else {
                 Functions.clearConsole();
-                System.out.println("Invalid Item ID!");
+                System.out.println(Terminal.RED + "Invalid Item ID!" + Terminal.DEFAULT);
             }
         }
     }
 
     public void displayItem(Item item) {
-        System.out.println("[" + item.getItemId() + "] " + item.getProductName());
-        System.out.println("Price: Php." + String.format("%,.2f", item.getPrice()));
-        System.out.println("Stock: " + item.getStock() + "pc");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[" + item.getItemId() + "] " + Terminal.DEFAULT + item.getProductName());
+        System.out.println(Terminal.BOLD + "Price: Php." + Terminal.DEFAULT + String.format("%,.2f", item.getPrice()));
+        System.out.println(Terminal.BOLD + "Stock: " + Terminal.DEFAULT + item.getStock() + "pc");
         System.out.println("_________________________________________________");
     }
 
@@ -97,11 +90,14 @@ public class Inventory implements Menu {
         items = databaseHelper.getItems(classification);
 
         for (Item item : items) {
-            System.out.println("[" + item.getItemId() + "] " + item.getProductName());
-            System.out.println("Price: Php." + String.format("%,.2f", item.getPrice()));
-            System.out.println("Stock: " + item.getStock() + "pc");
-            System.out.println("_________________________________________________");
+            displayItem(item);
         }
         return items;        
+    }
+
+    private void pressEnterDisplay() {
+        System.out.print(Terminal.BLUE + "Press Enter to go back..." + Terminal.DEFAULT);
+        Functions.getChoiceInString();
+        Functions.clearConsole();
     }
 }

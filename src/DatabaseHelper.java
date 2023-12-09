@@ -122,7 +122,7 @@ public class DatabaseHelper {
                 }
             }
             else
-                System.out.println("Something went wrong in the database!");
+                System.out.println(Terminal.MAGENTA + "Something went wrong in the database!" + Terminal.DEFAULT);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {

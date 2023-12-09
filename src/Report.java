@@ -6,10 +6,10 @@ public class Report implements Menu {
     @Override
     public void choices() {
         while (true) {
-            System.out.println("[1] List of Transaction");
-            System.out.println("[2] Statistics");
-            System.out.println("[0] Back");
-            System.out.print("Report #: ");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " List of Transaction");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Statistics");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[0]" + Terminal.DEFAULT + " Back");
+            System.out.print(Terminal.GREEN + "Report #: " + Terminal.DEFAULT);
 
             if (select()) break;
         }
@@ -33,7 +33,7 @@ public class Report implements Menu {
                 break;
             default:
                 Functions.clearConsole();
-                System.out.println("Invalid Selection!\n");
+                System.out.println(Terminal.RED + "Invalid Selection!\n" + Terminal.DEFAULT);
         }
         return false;
     }
@@ -53,7 +53,7 @@ public class Report implements Menu {
 
     private void listTrasactions(ArrayList<Transaction> transactions) {
         for (Transaction transaction : transactions) {
-            System.out.println("[" + transaction.getTransactionPk() + "] " + 
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[" + transaction.getTransactionPk() + "] " + Terminal.DEFAULT + 
                                 transaction.getDateTime() + " -> " + 
                                 transaction.getTotalPrice() + "\n");
         }
@@ -63,8 +63,8 @@ public class Report implements Menu {
         ArrayList<TransactionItem> transactionItems = new ArrayList<>();
 
         while (true) {
-            System.out.println("\n[0] Back");
-            System.out.print("Transaction ID: ");
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "\n[0]" + Terminal.DEFAULT + " Back");
+            System.out.print(Terminal.GREEN + "Transaction ID: " + Terminal.DEFAULT);
             
             Transaction selectedTransaction = new Transaction();
             int transactionId = Functions.getChoice();
@@ -88,7 +88,7 @@ public class Report implements Menu {
             }
             else {
                 Functions.clearConsole();
-                System.out.println("Transaction does not exist!\n");
+                System.out.println(Terminal.RED + "Transaction does not exist!\n" + Terminal.DEFAULT);
                 break;
             }
         }
@@ -110,16 +110,16 @@ public class Report implements Menu {
                                 String.format("%,.2f", transactionItem.getItemTotalPrice()) + "\n");
         }
 
-        System.out.println("TOTAL : " + String.format("%,.2f", transaction.getTotalPrice()));
-        System.out.print("CASH: " + String.format("%,.2f", transaction.getCash()));
-        System.out.println("\nCHANGE: " + String.format("%,.2f", transaction.getChange()));
+        System.out.println(Terminal.BOLD + "TOTAL : " + Terminal.DEFAULT + String.format("%,.2f", transaction.getTotalPrice()));
+        System.out.print(Terminal.BOLD + "CASH: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getCash()));
+        System.out.println(Terminal.BOLD + "\nCHANGE: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getChange()));
 
-        System.out.println("\nVatable Sales: " + String.format("%,.2f", transaction.getTotalPrice()));
-        System.out.println("Vat Amount: " + String.format("%,.2f", (transaction.getTotalPrice() * 0.12)));
+        System.out.println(Terminal.BOLD + "\nVatable Sales: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getTotalPrice()));
+        System.out.println(Terminal.BOLD + "Vat Amount: " + Terminal.DEFAULT + String.format("%,.2f", (transaction.getTotalPrice() * 0.12)));
 
-        System.out.println("\nPOS Transaction ID: " + transaction.getTransactionPk());
-        System.out.println("Date: " + localDateTime.format(dateFormatter));
-        System.out.println("Time: " + localDateTime.format(timeFormatter));
+        System.out.println(Terminal.BOLD + "\nPOS Transaction ID: " + Terminal.DEFAULT + transaction.getTransactionPk());
+        System.out.println(Terminal.BOLD + "Date: " + Terminal.DEFAULT + localDateTime.format(dateFormatter));
+        System.out.println(Terminal.BOLD + "Time: " + Terminal.DEFAULT + localDateTime.format(timeFormatter));
 
         pressEnterDisplay();
     }
@@ -128,18 +128,18 @@ public class Report implements Menu {
         DatabaseHelper databaseHelper = new DatabaseHelper();
         double grossAmount = databaseHelper.getGrossAmount();
 
-        System.out.println("====== S T A T I S T I C S ======\n");
-        System.out.println("Items Sold: " + databaseHelper.countTableRow("transaction_item") + "\n");
-        System.out.println("Registered Transactions: " + databaseHelper.countTableRow("transactions") + "\n");
-        System.out.println("Gross Amount: " + String.format("%,.2f", grossAmount) + "\n");
-        System.out.println("Estimated Net Amount: " + String.format("%,.2f", (grossAmount * 0.12)));
+        System.out.println(Terminal.BOLD + Terminal.BLUE + "====== S T A T I S T I C S ======\n" + Terminal.DEFAULT);
+        System.out.println(Terminal.BOLD + "Items Sold: " + Terminal.DEFAULT + databaseHelper.countTableRow("transaction_item") + "\n");
+        System.out.println(Terminal.BOLD + "Registered Transactions: " + Terminal.DEFAULT + databaseHelper.countTableRow("transactions") + "\n");
+        System.out.println(Terminal.BOLD + "Gross Amount: " + Terminal.DEFAULT + String.format("%,.2f", grossAmount) + "\n");
+        System.out.println(Terminal.BOLD + "Estimated Net Amount: " + Terminal.DEFAULT + String.format("%,.2f", (grossAmount * 0.12)));
 
         pressEnterDisplay();
     }
 
     private void pressEnterDisplay() {
         System.out.println("\n=================================");
-        System.out.print("Press Enter to go back...");
+        System.out.print(Terminal.BLUE + "Press Enter to go back..." + Terminal.DEFAULT);
         Functions.getChoiceInString();
         Functions.clearConsole();
     }
