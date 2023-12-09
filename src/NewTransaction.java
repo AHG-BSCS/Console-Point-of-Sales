@@ -66,10 +66,10 @@ public class NewTransaction {
                     quantity = Functions.getChoice();
 
                     // Limit the item quantity to 1 - 200
-                    if (quantity > 0 & quantity < 201)
+                    if (quantity > 0 & quantity <= item.getStock())
                         break;
                     else
-                        System.out.println("\nInvalid Quantity!");
+                        System.out.println("\nOut of stock!");
                 }
                 // Make sure quantity is valid before adding the item
                 item.setQuantity(quantity);
@@ -92,12 +92,12 @@ public class NewTransaction {
             quantity = Functions.getChoice();
 
             // Limit the item quantity to 1 - 200
-            if (quantity > 0 & quantity < 201) {
+            if (quantity > 0 & quantity <= item.getStock()) {
                 Functions.clearConsole();
                 break;
             }
             else
-                System.out.println("\nInvalid Quantity!");
+                System.out.println("\nOut of stock!");
         }
         // Make sure quantity is valid before adding the item
         item.setQuantity(quantity);
