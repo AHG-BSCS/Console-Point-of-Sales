@@ -110,14 +110,19 @@ public class DatabaseHelper {
 
             if (resultSet.next()) {
                 generatedKey = resultSet.getInt(1);
-                preparedStatement = connection.prepareStatement(transactionItemSql);
 
                 for (Item item : items) {
+                    preparedStatement = connection.prepareStatement(transactionItemSql);
                     preparedStatement.setInt(1, generatedKey);
                     preparedStatement.setInt(2, item.getItemPk());
                     preparedStatement.setInt(3, item.getQuantity());
                     preparedStatement.setFloat(4, item.getPrice());
                     preparedStatement.setFloat(5, (item.getPrice() * item.getQuantity()));
+                    preparedStatement.executeUpdate();
+
+                    preparedStatement = connection.prepareStatement("UPDATE item SET stock = ? WHERE item_pk = ?");
+                    preparedStatement.setInt(1, (item.getStock() - item.getQuantity()));
+                    preparedStatement.setInt(2, item.getItemPk());
                     preparedStatement.executeUpdate();
                 }
             }
