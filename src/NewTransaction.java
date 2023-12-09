@@ -17,7 +17,6 @@ public class NewTransaction {
 
     public boolean selection() {
         String choice = Functions.getChoiceInString();
-        int itemId = 0;
 
         switch (choice) {
             case "S":
@@ -86,6 +85,7 @@ public class NewTransaction {
 
     public void addItemToCart(Item item) {
         int quantity = 0;
+
         while (true) {
             System.out.println(item.getProduct());
             System.out.print("Quantity: ");
@@ -139,52 +139,57 @@ public class NewTransaction {
 
             classification = Functions.getChoice();
 
-            if (classification == 0) 
+            if (classification == 0) {
+                Functions.clearConsole();
                 return;
+            }
             else if (classification > 0 & classification < 13) {
                 Functions.clearConsole();
-                break;
-            }
-            
-            Functions.clearConsole();
-            System.out.println("Invalid Classification!\n");
-        }
+                ArrayList<Item> items = new ArrayList<>();
+                DatabaseHelper databaseHelper = new DatabaseHelper();
+                Inventory inventory = new Inventory();
 
-        ArrayList<Item> items = new ArrayList<>();
-        DatabaseHelper databaseHelper = new DatabaseHelper();
-        Inventory inventory = new Inventory();
+                items = databaseHelper.getItems(classification);
+                inventory.displayItemsByCategory(items);
 
-        items = databaseHelper.getItems(classification);
-        inventory.displayItemsByCategory(items);
+                // Check if the selected item exist
+                while (true) {
+                    System.out.println("\n[0] Back");
+                    System.out.print("Item ID: ");
+                    
+                    Item seachedItem = new Item();
+                    int itemId = Functions.getChoice();
+                    boolean itemExist = false;
 
-        // Check if the selected item exist
-        while (true) {
-            System.out.println("[0] Back"); // TODO: Fix this logic
-            System.out.print("Item ID: ");
-            
-            Item seachedItem = new Item();
-            int itemId = Functions.getChoice();
-            boolean itemExist = false;
+                    if (itemId == 0) {
+                        Functions.clearConsole();
+                        break;
+                    }
 
-            if (itemId == 0) break;
+                    for (Item item : items) {
+                        if (item.getItemPk() == itemId) {
+                            itemExist = true;
+                            seachedItem = item;
+                            break;
+                        }
+                    }
 
-            for (Item item : items) {
-                if (item.getItemPk() == itemId) {
-                    itemExist = true;
-                    seachedItem = item;
-                    break;
+                    if (itemExist) {
+                        addItemToCart(seachedItem);
+                        return;
+                    }
+                    else {
+                        Functions.clearConsole();
+                        System.out.println("Item does not exist!");
+                        inventory.displayItemsByCategory(items);
+                    }
                 }
-            }
-
-            if (itemExist) {
-                addItemToCart(seachedItem);
-                break;
             }
             else {
                 Functions.clearConsole();
-                System.out.println("Item does not exist!");
-                inventory.displayItemsByCategory(items);
+                System.out.println("Invalid Classification!\n");
             }
+            
         }
     }
 

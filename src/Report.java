@@ -51,7 +51,7 @@ public class Report {
             }
 
             while (true) {
-                System.out.println("[0] Back");
+                System.out.println("\n[0] Back");
                 System.out.print("Transaction ID: ");
                 
                 Transaction selectedTransaction = new Transaction();

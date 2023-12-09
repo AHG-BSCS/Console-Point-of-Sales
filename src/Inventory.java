@@ -55,7 +55,8 @@ public class Inventory {
     public void displayItemsByCategory(ArrayList<Item> items) {
         for (Item item : items) {
             System.out.println("[" + item.getItemPk() + "] " + item.getProduct());
-            System.out.println("Php." + item.getPrice() + " -> " + item.getStock() + "x\n");
+            System.out.println("Php." + item.getPrice() + " -> " + item.getStock() + "x");
+            System.out.println("______________________________________________________");
         }
     }
 }
