@@ -2,20 +2,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class NewTransaction {
+public class NewTransaction implements Menu{
     ArrayList<Item> cart = new ArrayList<>();
 
-    public void startNewTransac() {
+    @Override
+    public void choices() {
         while (true) {
             listItems();
             System.out.println("\n[S] Search  [R] Receipt  [C] Clear  [B] Back");
             System.out.print("Item ID: ");
 
-            if (selection()) break;
+            if (select()) break;
         }
     }
 
-    public boolean selection() {
+    @Override
+    public boolean select() {
         String choice = Functions.getChoiceInString();
 
         switch (choice) {
@@ -151,49 +153,48 @@ public class NewTransaction {
                 Functions.clearConsole();
                 ArrayList<Item> items = new ArrayList<>();
                 DatabaseHelper databaseHelper = new DatabaseHelper();
-                Inventory inventory = new Inventory();
 
                 items = databaseHelper.getItems(classification);
-                inventory.displayItemsByCategory(items);
-
-                // Check if the selected item exist
-                while (true) {
-                    System.out.println("\n[0] Back");
-                    System.out.print("Item ID: ");
-                    
-                    Item seachedItem = new Item();
-                    int itemId = Functions.getChoice();
-                    boolean itemExist = false;
-
-                    if (itemId == 0) {
-                        Functions.clearConsole();
-                        break;
-                    }
-
-                    for (Item item : items) {
-                        if (item.getItemPk() == itemId) {
-                            itemExist = true;
-                            seachedItem = item;
-                            break;
-                        }
-                    }
-
-                    if (itemExist) {
-                        addItemToCart(seachedItem);
-                        return;
-                    }
-                    else {
-                        Functions.clearConsole();
-                        System.out.println("Item does not exist!");
-                        inventory.displayItemsByCategory(items);
-                    }
-                }
+                new Inventory().displayItems(items);
+                validateItem(items);
             }
             else {
                 Functions.clearConsole();
                 System.out.println("Invalid Classification!\n");
             }
+        }
+    }
+
+    private void validateItem(ArrayList<Item> items) {
+        while (true) {
+            System.out.println("\n[0] Back");
+            System.out.print("Item ID: ");
             
+            Item seachedItem = new Item();
+            int itemId = Functions.getChoice();
+
+            if (itemId == 0) {
+                Functions.clearConsole();
+                break;
+            }
+
+            for (Item item : items) {
+                if (item.getItemPk() == itemId) {
+                    seachedItem = item;
+                    break;
+                }
+            }
+
+            // If item was found in the search results, add it to cart
+            if (seachedItem.getProduct() != null) {
+                addItemToCart(seachedItem);
+                return;
+            }
+            else {
+                Functions.clearConsole();
+                System.out.println("Item does not exist in the list!");
+                new Inventory().displayItems(items);
+            }
         }
     }
 

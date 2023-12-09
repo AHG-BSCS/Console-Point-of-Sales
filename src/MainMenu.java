@@ -1,5 +1,6 @@
-public class MainMenu {
-    public void mainMenu() {
+public class MainMenu implements Menu{
+    @Override
+    public void choices() {
         while (true) {
             System.out.println("\033[33mPOSsys - A Point of Sale Console System");
             System.out.println("By Al Hans Gaming\033[0m\n");
@@ -9,28 +10,29 @@ public class MainMenu {
             System.out.println("\033[44m[4]\033[0m Exit");
             System.out.print("\n\033[34mTransaction #: \033[0m");
 
-            if (selection()) break;
+            if (select()) break;
         }
     }
 
-    public boolean selection() {
+    @Override
+    public boolean select() {
         int choice = Functions.getChoice();
 
         switch (choice) {
             case 1:
                 Functions.clearConsole();
                 NewTransaction startNewTransac = new NewTransaction();
-                startNewTransac.startNewTransac();
+                startNewTransac.choices();
                 break;
             case 2:
                 Functions.clearConsole();
                 Inventory startInventory = new Inventory();
-                startInventory.startInventory();
+                startInventory.choices();
                 break;
             case 3:
                 Functions.clearConsole();
                 Report startPreviousTransaction = new Report();
-                startPreviousTransaction.startReport();
+                startPreviousTransaction.choices();
                 break;
             case 4:
                 Functions.clearConsole();

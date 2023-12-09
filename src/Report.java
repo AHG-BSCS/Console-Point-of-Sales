@@ -2,20 +2,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Report {
-    public void startReport() {
+public class Report implements Menu{
+    @Override
+    public void choices() {
         while (true) {
             System.out.println("[1] List of Transaction");
             System.out.println("[2] Statistics");
             System.out.println("[0] Back");
             System.out.print("Report #: ");
 
-            if (selection())
+            if (select())
                 break;
         }
     }
 
-    public boolean selection() {
+    @Override
+    public boolean select() {
         int choice = Functions.getChoice();
 
         switch (choice) {
