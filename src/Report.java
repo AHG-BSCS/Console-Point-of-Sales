@@ -102,9 +102,9 @@ public class Report implements Menu{
 
         for (TransactionItem transactionItem : transactionItems) {
             System.out.println("[" + transactionItem.getItemId() + "] " + 
-                                databaseHelper.getItem(transactionItem.getItemId()).getProduct());
+                                databaseHelper.getItem(transactionItem.getItemId()).getProductName());
             System.out.println(transactionItem.getQuantity() + "pc * " +
-                                String.format("%,.2f", transactionItem.getItemPrice()) + " = " + 
+                                String.format("%,.2f", transactionItem.getPrice()) + " = " + 
                                 String.format("%,.2f", transactionItem.getItemTotalPrice()) + "\n");
         }
 

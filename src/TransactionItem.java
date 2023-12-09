@@ -1,8 +1,5 @@
-public class TransactionItem {
+public class TransactionItem extends Product{
     private int transactionId;
-    private int itemId;
-    private int quantity;
-    private float itemPrice;
     private float itemTotalPrice;
 
     public int getTransactionId() {
@@ -12,27 +9,6 @@ public class TransactionItem {
         this.transactionId = transactionId;
     }
 
-    public int getItemId() {
-        return itemId;
-    }
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public float getItemPrice() {
-        return itemPrice;
-    }
-    public void setItemPrice(float itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-    
     public float getItemTotalPrice() {
         return itemTotalPrice;
     }

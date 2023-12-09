@@ -24,8 +24,8 @@ public class DatabaseHelper {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                item.setItemPk(resultSet.getInt("item_pk"));
-                item.setProduct(resultSet.getString("product"));
+                item.setItemId(resultSet.getInt("item_pk"));
+                item.setProductName(resultSet.getString("product"));
                 item.setPrice(resultSet.getFloat("price"));
                 item.setStock(resultSet.getInt("stock"));
                 item.setClassification(resultSet.getInt("classification_id"));
@@ -60,8 +60,8 @@ public class DatabaseHelper {
 
             while (resultSet.next()) {
                 Item item = new Item();
-                item.setItemPk(resultSet.getInt("item_pk"));
-                item.setProduct(resultSet.getString("product"));
+                item.setItemId(resultSet.getInt("item_pk"));
+                item.setProductName(resultSet.getString("product"));
                 item.setPrice(resultSet.getFloat("price"));
                 item.setStock(resultSet.getInt("stock"));
                 item.setClassification(resultSet.getInt("classification_id"));
@@ -114,7 +114,7 @@ public class DatabaseHelper {
                 for (Item item : items) {
                     preparedStatement = connection.prepareStatement(transactionItemSql);
                     preparedStatement.setInt(1, generatedKey);
-                    preparedStatement.setInt(2, item.getItemPk());
+                    preparedStatement.setInt(2, item.getItemId());
                     preparedStatement.setInt(3, item.getQuantity());
                     preparedStatement.setFloat(4, item.getPrice());
                     preparedStatement.setFloat(5, (item.getPrice() * item.getQuantity()));
@@ -122,7 +122,7 @@ public class DatabaseHelper {
 
                     preparedStatement = connection.prepareStatement("UPDATE item SET stock = ? WHERE item_pk = ?");
                     preparedStatement.setInt(1, (item.getStock() - item.getQuantity()));
-                    preparedStatement.setInt(2, item.getItemPk());
+                    preparedStatement.setInt(2, item.getItemId());
                     preparedStatement.executeUpdate();
                 }
             }
@@ -197,7 +197,7 @@ public class DatabaseHelper {
                 transactionItem.setTransactionId(resultSet.getInt("transaction_id"));
                 transactionItem.setItemId(resultSet.getInt("item_id"));
                 transactionItem.setQuantity(resultSet.getInt("quantity"));
-                transactionItem.setItemPrice(resultSet.getFloat("item_price"));
+                transactionItem.setPrice(resultSet.getFloat("item_price"));
                 transactionItem.setItemTotalPrice(resultSet.getFloat("item_total_price"));
                 transactionItems.add(transactionItem);
             }

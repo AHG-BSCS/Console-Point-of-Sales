@@ -66,7 +66,7 @@ public class Inventory implements Menu{
                 Functions.clearConsole();
                 break;
             }
-            else if (item.getProduct() != null) {
+            else if (item.getProductName() != null) {
                 Functions.clearConsole();
                 displayItem(item);
 
@@ -83,7 +83,7 @@ public class Inventory implements Menu{
     }
 
     public void displayItem(Item item) {
-        System.out.println("[" + item.getItemPk() + "] " + item.getProduct());
+        System.out.println("[" + item.getItemId() + "] " + item.getProductName());
         System.out.println("Price: Php." + String.format("%,.2f", item.getPrice()));
         System.out.println("Stock: " + item.getStock() + "pc");
         System.out.println("_________________________________________________");
@@ -97,7 +97,7 @@ public class Inventory implements Menu{
         items = databaseHelper.getItems(classification);
 
         for (Item item : items) {
-            System.out.println("[" + item.getItemPk() + "] " + item.getProduct());
+            System.out.println("[" + item.getItemId() + "] " + item.getProductName());
             System.out.println("Price: Php." + String.format("%,.2f", item.getPrice()));
             System.out.println("Stock: " + item.getStock() + "pc");
             System.out.println("_________________________________________________");

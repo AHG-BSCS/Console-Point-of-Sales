@@ -64,7 +64,7 @@ public class NewTransaction extends Inventory{
             for (Item item : cart) {
                 totalAmount += item.getPrice() * item.getQuantity();
 
-                System.out.println(item.getProduct());
+                System.out.println(item.getProductName());
                 System.out.println(item.getQuantity() + " pc * " + 
                                     String.format("%,.2f", item.getPrice()) + " = " + 
                                     String.format("%,.2f", (item.getPrice() * item.getQuantity())));
@@ -80,12 +80,12 @@ public class NewTransaction extends Inventory{
             Item item = new Item();
             item = databaseHelper.getItem(Integer.parseInt(choice));
             
-            if (item.getProduct() == null)
+            if (item.getProductName() == null)
                 System.out.println("Invalid Item ID!");
             else {
                 int quantity = 0;
                 while (true) {
-                    System.out.println(item.getProduct() + " -> Php." + item.getPrice());
+                    System.out.println(item.getProductName() + " -> Php." + item.getPrice());
                     System.out.print("Quantity: ");
                     quantity = Functions.getChoice();
 
@@ -109,7 +109,7 @@ public class NewTransaction extends Inventory{
         int quantity = 0;
 
         while (true) {
-            System.out.println(item.getProduct());
+            System.out.println(item.getProductName());
             System.out.print("Quantity: ");
             quantity = Functions.getChoice();
 
@@ -178,14 +178,14 @@ public class NewTransaction extends Inventory{
             }
 
             for (Item item : items) {
-                if (item.getItemPk() == itemId) {
+                if (item.getItemId() == itemId) {
                     seachedItem = item;
                     break;
                 }
             }
 
             // If item was found in the search results, add it to cart
-            if (seachedItem.getProduct() != null) {
+            if (seachedItem.getProductName() != null) {
                 addItemToCart(seachedItem);
                 return;
             }
