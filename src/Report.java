@@ -8,7 +8,7 @@ public class Report extends NewTransaction {
         while (true) {
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " List of Transaction");
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Statistics");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[0]" + Terminal.DEFAULT + " Back");
+            System.out.println(Terminal.BOLD + Terminal.RED + "[0]" + Terminal.DEFAULT + " Back");
             System.out.print(Terminal.GREEN + "Report #: " + Terminal.DEFAULT);
 
             if (select()) break;
@@ -63,7 +63,7 @@ public class Report extends NewTransaction {
         ArrayList<TransactionItem> transactionItems = new ArrayList<>();
 
         while (true) {
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "\n[0]" + Terminal.DEFAULT + " Back");
+            System.out.println(Terminal.BOLD + Terminal.RED + "\n[0]" + Terminal.DEFAULT + " Back");
             System.out.print(Terminal.GREEN + "Transaction ID: " + Terminal.DEFAULT);
             
             Transaction selectedTransaction = new Transaction();

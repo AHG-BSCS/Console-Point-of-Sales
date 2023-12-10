@@ -12,8 +12,8 @@ public class NewTransaction extends Inventory {
             listItems();
             System.out.println(Terminal.BOLD + Terminal.GREEN + "\n[S]" + Terminal.DEFAULT + " Search  " +
                             Terminal.BOLD + Terminal.GREEN + "[R]" + Terminal.DEFAULT + " Receipt  " +
-                            Terminal.BOLD + Terminal.GREEN + "[C]" + Terminal.DEFAULT + " Clear  " +
-                            Terminal.BOLD + Terminal.GREEN + "[B]" + Terminal.DEFAULT + " Back");
+                            Terminal.BOLD + Terminal.RED + "[C]" + Terminal.DEFAULT + " Clear  " +
+                            Terminal.BOLD + Terminal.RED + "[B]" + Terminal.DEFAULT + " Back");
             System.out.print(Terminal.GREEN + "Item ID: " + Terminal.DEFAULT);
 
             if (select()) break;
@@ -143,7 +143,7 @@ public class NewTransaction extends Inventory {
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[10]" + Terminal.DEFAULT + " Headset");
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[11]" + Terminal.DEFAULT + " Microphone");
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[12]" + Terminal.DEFAULT + " Accessory");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[0]" + Terminal.DEFAULT + " Back");
+            System.out.println(Terminal.BOLD + Terminal.RED + "[0]" + Terminal.DEFAULT + " Back");
             System.out.print(Terminal.GREEN + "\nClassification #: " + Terminal.DEFAULT);
 
             classification = Functions.getChoice();
@@ -165,7 +165,7 @@ public class NewTransaction extends Inventory {
 
     private void validateItem(ArrayList<Item> items, int classification) {
         while (true) {
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "\n[0]" + Terminal.DEFAULT + " Back");
+            System.out.println(Terminal.BOLD + Terminal.RED + "\n[0]" + Terminal.DEFAULT + " Back");
             System.out.print(Terminal.GREEN + "Item ID: " + Terminal.DEFAULT);
             
             Item seachedItem = new Item();

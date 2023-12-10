@@ -7,7 +7,7 @@ public class MainMenu implements Menu {
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " New Transaction");
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Inventory");
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[3]" + Terminal.DEFAULT + " Report");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[4]" + Terminal.DEFAULT + " Exit");
+            System.out.println(Terminal.BOLD + Terminal.RED + "[4]" + Terminal.DEFAULT + " Exit");
             System.out.print(Terminal.GREEN + "\nTransaction #: " + Terminal.DEFAULT);
 
             if (select()) break;

@@ -17,7 +17,7 @@ public class Inventory implements Menu {
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[11]" + Terminal.DEFAULT + " Microphone");
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[12]" + Terminal.DEFAULT + " Accessory");
             System.out.println(Terminal.BOLD + Terminal.GREEN + "[13]" + Terminal.DEFAULT + " Search");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[0]" + Terminal.DEFAULT + " Back");
+            System.out.println(Terminal.BOLD + Terminal.RED + "[0]" + Terminal.DEFAULT + " Back");
             System.out.print(Terminal.GREEN + "\nClassification #: " + Terminal.DEFAULT);
 
             if (select()) break;
@@ -54,7 +54,7 @@ public class Inventory implements Menu {
             ArrayList<Item> items = new ArrayList<>();
             Item item = new Item();
 
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[B]" + Terminal.DEFAULT + " Back");
+            System.out.println(Terminal.BOLD + Terminal.RED + "[B]" + Terminal.DEFAULT + " Back");
             System.out.print(Terminal.GREEN + "Item Keyword/ID: " + Terminal.DEFAULT);
             String choice = Functions.getChoiceInString();
 
