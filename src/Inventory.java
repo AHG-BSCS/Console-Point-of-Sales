@@ -23,6 +23,7 @@ public class Inventory implements Menu {
             // Dont return to keep looping
         }
         else if (classification > 0 & classification < 13) {
+            Functions.clearConsole();
             displayItems(classification);
             pressEnterDisplay();
         }
@@ -116,7 +117,6 @@ public class Inventory implements Menu {
 
     public ArrayList<Item> displayItems(int classification) {
         // Retrieve and display all items for specific classification
-        Functions.clearConsole();
         ArrayList<Item> items = new ArrayList<>();
         DatabaseHelper databaseHelper = new DatabaseHelper();
         items = databaseHelper.getItems(classification);

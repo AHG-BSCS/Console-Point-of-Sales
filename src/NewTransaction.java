@@ -170,12 +170,6 @@ public class NewTransaction extends Inventory {
         }
         // Make sure quantity is valid before adding the item
         item.setQuantity(quantity);
-
-        for (Item item2 : cart) {
-            if (item2.getProductName() == item.getProductName()) {
-                
-            }
-        }
         cart.add(item);
     }
 
@@ -197,6 +191,7 @@ public class NewTransaction extends Inventory {
                 break;
             }
             else if (classification > 0 & classification < 13) {
+                Functions.clearConsole();
                 validateItem(displayItems(classification), classification);
                 return;
             }
