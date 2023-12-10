@@ -4,22 +4,7 @@ public class Inventory implements Menu {
     @Override
     public void choices() {
         while (true) {
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " Processor");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Graphics Card");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[3]" + Terminal.DEFAULT + " Memory");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[4]" + Terminal.DEFAULT + " Storage");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[5]" + Terminal.DEFAULT + " Motherboard");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[6]" + Terminal.DEFAULT + " Power Supply");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[7]" + Terminal.DEFAULT + " Fans/Cooler");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[8]" + Terminal.DEFAULT + " Keyboard");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[9]" + Terminal.DEFAULT + " Mice");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[10]" + Terminal.DEFAULT + " Headset");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[11]" + Terminal.DEFAULT + " Microphone");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[12]" + Terminal.DEFAULT + " Accessory");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[13]" + Terminal.DEFAULT + " Search");
-            System.out.println(Terminal.BOLD + Terminal.RED + "[0]" + Terminal.DEFAULT + " Back");
-            System.out.print(Terminal.GREEN + "\nClassification #: " + Terminal.DEFAULT);
-
+            printCategories();
             if (select()) break;
         }
     }
@@ -46,6 +31,24 @@ public class Inventory implements Menu {
             System.out.println(Terminal.RED + "Invalid Classification\n" + Terminal.DEFAULT);
         }
         return false;
+    }
+
+    public void printCategories() {
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " Processor");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Graphics Card");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[3]" + Terminal.DEFAULT + " Memory");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[4]" + Terminal.DEFAULT + " Storage");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[5]" + Terminal.DEFAULT + " Motherboard");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[6]" + Terminal.DEFAULT + " Power Supply");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[7]" + Terminal.DEFAULT + " Fans/Cooler");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[8]" + Terminal.DEFAULT + " Keyboard");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[9]" + Terminal.DEFAULT + " Mice");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[10]" + Terminal.DEFAULT + " Headset");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[11]" + Terminal.DEFAULT + " Microphone");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[12]" + Terminal.DEFAULT + " Accessory");
+        System.out.println(Terminal.BOLD + Terminal.GREEN + "[13]" + Terminal.DEFAULT + " Search");
+        System.out.println(Terminal.BOLD + Terminal.RED + "[0]" + Terminal.DEFAULT + " Back");
+        System.out.print(Terminal.GREEN + "\nClassification #: " + Terminal.DEFAULT);
     }
 
     private void searchItem() {
@@ -109,7 +112,6 @@ public class Inventory implements Menu {
         System.out.println(Terminal.BOLD + Terminal.GREEN + "[" + item.getItemId() + "] " + Terminal.DEFAULT + item.getProductName());
         System.out.println(Terminal.BOLD + "Price: Php." + Terminal.DEFAULT + String.format("%,.2f", item.getPrice()));
         System.out.println(Terminal.BOLD + "Stock: " + Terminal.DEFAULT + item.getStock() + "pc");
-        System.out.println("_________________________________________________");
     }
 
     public ArrayList<Item> displayItems(int classification) {

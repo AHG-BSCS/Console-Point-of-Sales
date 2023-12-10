@@ -14,7 +14,7 @@ public class NewTransaction extends Inventory {
                             Terminal.BOLD + Terminal.GREEN + "[R]" + Terminal.DEFAULT + " Receipt  " +
                             Terminal.BOLD + Terminal.RED + "[C]" + Terminal.DEFAULT + " Clear  " +
                             Terminal.BOLD + Terminal.RED + "[B]" + Terminal.DEFAULT + " Back");
-            System.out.print(Terminal.GREEN + "Item ID: " + Terminal.DEFAULT);
+            System.out.print(Terminal.GREEN + "Item Keyword/ID: " + Terminal.DEFAULT);
 
             if (select()) break;
         }
@@ -56,7 +56,7 @@ public class NewTransaction extends Inventory {
                 Functions.clearConsole();
                 return true;
         }
-        retrieveItem(choice);
+        findItem(choice);
         return false;
     }
 
@@ -85,21 +85,67 @@ public class NewTransaction extends Inventory {
         }
     }
 
-    private void retrieveItem(String choice) {
+    private void findItem(String keyword) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        ArrayList<Item> items = new ArrayList<>();
+        Item item = new Item();
+
+        // If choice is item ID, else will throw exception
         try {
-            DatabaseHelper databaseHelper = new DatabaseHelper();
-            Item item = new Item();
-            item = databaseHelper.getItem(Integer.parseInt(choice));
+            item = databaseHelper.getItem(Integer.parseInt(keyword));
             
             if (item.getProductName() != null) {
                 addItemToCart(item);
                 Functions.clearConsole();
             }
-            else
-                System.out.println(Terminal.RED + "Invalid Item ID!" + Terminal.DEFAULT);
-        } catch (Exception e) {
+            else {
+                Functions.clearConsole();
+                System.out.println(Terminal.RED + "Item not Found!" + Terminal.DEFAULT);
+            }
+        } catch (Exception e) {}
+        
+        // Try to search the keyword if above throw exception
+        if (item.getProductName() == null) {
             Functions.clearConsole();
-            System.out.println(Terminal.RED + "Invalid Item ID!" + Terminal.DEFAULT);
+            items = databaseHelper.getItems(keyword);
+
+            if (items.size() != 0) {
+                while (true) {
+                    for (Item matchedItem : items) {
+                        displayItem(matchedItem);
+                    }
+
+                    System.out.println(Terminal.BOLD + Terminal.RED + "\n[0]" + Terminal.DEFAULT + " Back");
+                    System.out.print(Terminal.GREEN + "Item ID: " + Terminal.DEFAULT);
+                    
+                    int itemId = Functions.getChoice();
+
+                    if (itemId == 0) {
+                        Functions.clearConsole();
+                        break;
+                    }
+
+                    for (Item item1 : items) {
+                        if (item1.getItemId() == itemId) {
+                            item = item1;
+                            break;
+                        }
+                    }
+
+                    // If item was found in the search results, add it to cart
+                    if (item.getProductName() != null) {
+                        addItemToCart(item);
+                        items.clear();
+                        break;
+                    }
+                    else {
+                        Functions.clearConsole();
+                        System.out.println(Terminal.RED + "Item does not exist in the results!" + Terminal.DEFAULT);
+                    }
+                }
+            }
+            else
+                System.out.println(Terminal.RED + "No Result!" + Terminal.DEFAULT);
         }
     }
 
@@ -124,33 +170,31 @@ public class NewTransaction extends Inventory {
         }
         // Make sure quantity is valid before adding the item
         item.setQuantity(quantity);
+
+        for (Item item2 : cart) {
+            if (item2.getProductName() == item.getProductName()) {
+                
+            }
+        }
         cart.add(item);
     }
 
     private void searchSelected() {
-        int classification = 0;
+        int classification;
 
         while (true) {
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[1]" + Terminal.DEFAULT + " Processor");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[2]" + Terminal.DEFAULT + " Graphics Card");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[3]" + Terminal.DEFAULT + " Memory");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[4]" + Terminal.DEFAULT + " Storage");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[5]" + Terminal.DEFAULT + " Motherboard");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[6]" + Terminal.DEFAULT + " Power Supply");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[7]" + Terminal.DEFAULT + " Fans/Cooler");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[8]" + Terminal.DEFAULT + " Keyboard");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[9]" + Terminal.DEFAULT + " Mice");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[10]" + Terminal.DEFAULT + " Headset");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[11]" + Terminal.DEFAULT + " Microphone");
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[12]" + Terminal.DEFAULT + " Accessory");
-            System.out.println(Terminal.BOLD + Terminal.RED + "[0]" + Terminal.DEFAULT + " Back");
-            System.out.print(Terminal.GREEN + "\nClassification #: " + Terminal.DEFAULT);
-
+            printCategories();
             classification = Functions.getChoice();
 
             if (classification == 0) {
                 Functions.clearConsole();
                 return;
+            }
+            else if (classification == 13) {
+                Functions.clearConsole();
+                System.out.print(Terminal.GREEN + "Item Keyword/ID: " + Terminal.DEFAULT);
+                findItem(Functions.getChoiceInString());
+                break;
             }
             else if (classification > 0 & classification < 13) {
                 validateItem(displayItems(classification), classification);
