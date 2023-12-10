@@ -38,12 +38,46 @@ public class DatabaseHelper {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
-
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
         }
         return item;
+    }
+
+    public ArrayList<Item> getItems(String keyword) {
+        String sql = "SELECT * FROM item WHERE product LIKE ?";
+        ArrayList<Item> items = new ArrayList<>();
+        
+        try {
+            connection = DriverManager.getConnection(url);
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, "%" + keyword + "%");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Item item = new Item();
+                item.setItemId(resultSet.getInt("item_pk"));
+                item.setProductName(resultSet.getString("product"));
+                item.setPrice(resultSet.getFloat("price"));
+                item.setStock(resultSet.getInt("stock"));
+                item.setClassification(resultSet.getInt("classification_id"));
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                // Close to prevent memory leaks
+                if (resultSet != null) resultSet.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return items;
     }
 
     public ArrayList<Item> getItems(int classification) {
@@ -72,7 +106,6 @@ public class DatabaseHelper {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
-
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -131,7 +164,6 @@ public class DatabaseHelper {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
-
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -167,7 +199,6 @@ public class DatabaseHelper {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
-
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -201,7 +232,6 @@ public class DatabaseHelper {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
-
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -229,7 +259,6 @@ public class DatabaseHelper {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
-
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -257,7 +286,6 @@ public class DatabaseHelper {
                 if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
-
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }

@@ -51,18 +51,37 @@ public class Inventory implements Menu {
     private void searchItem() {
         while (true) {
             DatabaseHelper databaseHelper = new DatabaseHelper();
+            ArrayList<Item> items = new ArrayList<>();
             Item item = new Item();
 
-            System.out.println(Terminal.BOLD + Terminal.GREEN + "[0]" + Terminal.DEFAULT + " Back");
-            System.out.print(Terminal.GREEN + "Item ID: " + Terminal.DEFAULT);
-            int choice = Functions.getChoice();
-            item = databaseHelper.getItem(choice);
+            System.out.println(Terminal.BOLD + Terminal.GREEN + "[B]" + Terminal.DEFAULT + " Back");
+            System.out.print(Terminal.GREEN + "Item Keyword/ID: " + Terminal.DEFAULT);
+            String choice = Functions.getChoiceInString();
 
-            if (choice == 0) {
-                Functions.clearConsole();
-                break;
+            switch (choice) {
+                case "b":
+                    Functions.clearConsole();
+                    return;
+                case "B":
+                    Functions.clearConsole();
+                    return;
             }
-            else if (item.getProductName() != null) {
+
+            try {
+                // If choice can be parse to int
+                item = databaseHelper.getItem(Integer.parseInt(choice));
+                
+                if (item.getProductName() != null) {
+                    Functions.clearConsole();
+                }
+                else {
+                    Functions.clearConsole();
+                    System.out.println(Terminal.RED + "Item not Found!" + Terminal.DEFAULT);
+                    break;
+                }
+            } catch (Exception e) {}
+            
+            if (item.getProductName() != null) {
                 Functions.clearConsole();
                 displayItem(item);
                 pressEnterDisplay();
@@ -70,7 +89,18 @@ public class Inventory implements Menu {
             }
             else {
                 Functions.clearConsole();
-                System.out.println(Terminal.RED + "Invalid Item ID!" + Terminal.DEFAULT);
+                items = databaseHelper.getItems(choice);
+
+                if (items.size() != 0) {
+                    Functions.clearConsole();
+                    for (Item matchedItem : items) {
+                        displayItem(matchedItem);
+                    }
+                    items.clear();
+                    pressEnterDisplay();
+                }
+                else 
+                    System.out.println(Terminal.RED + "No Result!" + Terminal.DEFAULT);
             }
         }
     }
