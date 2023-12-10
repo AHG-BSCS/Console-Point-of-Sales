@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class NewTransaction extends Inventory {
     private ArrayList<Item> cart = new ArrayList<>();
+    private int terminalWidth = 35;
 
     @Override
     public void choices() {
@@ -61,19 +62,26 @@ public class NewTransaction extends Inventory {
 
     private void listItems() {
         if (cart.size() != 0) {
-            System.out.println(Terminal.BOLD + Terminal.YELLOW + "================= I T E M S =================" + Terminal.DEFAULT);
+            for (Item item : cart) {
+                if (item.getProductName().length() > terminalWidth)
+                    terminalWidth = item.getProductName().length();
+            }
+
             double totalAmount = 0;
+            //printTextWithStyle(Terminal.BOLD + "============== I T E M S ==============" + Terminal.DEFAULT);
+            printTextWithEqual(" I T E M S ");
 
             for (Item item : cart) {
+                
                 totalAmount += item.getPrice() * item.getQuantity();
 
-                System.out.println(item.getProductName());
-                System.out.println(item.getQuantity() + " pc * " + 
+                printTextWithBorder(item.getProductName());
+                printTextWithBorder(item.getQuantity() + " pc * " + 
                                     String.format("%,.2f", item.getPrice()) + " = " + 
                                     String.format("%,.2f", (item.getPrice() * item.getQuantity())));
             }
-            System.out.println("____________________________________________");
-            System.out.println(Terminal.BOLD + Terminal.BLUE + "TOTAL: " + Terminal.DEFAULT + String.format("%,.2f", totalAmount));
+            printLine();
+            printTextWithStyle(Terminal.BOLD + "TOTAL: " + Terminal.DEFAULT + String.format("%,.2f", totalAmount));
         }
     }
 
@@ -211,40 +219,20 @@ public class NewTransaction extends Inventory {
                 Functions.clearConsole();
                 return;
             }
-
-            if (cash > 0 & cash < 1_000_000 & cash > totalPrice)
-                break;
+            else if (cash > 0 && cash <= (totalPrice + 1000)) {
+                if (cash >= totalPrice) {
+                    displayAndSaveReceipt(cash, totalPrice);
+                    break;
+                }
+                else
+                    System.out.println(Terminal.RED + "Insufficient Amount!" + Terminal.DEFAULT);
+            }
+            else if (cash > (totalPrice + 1000))
+                    System.out.println(Terminal.RED + "Too Large Amount!" + Terminal.DEFAULT);
             else
                 System.out.println(Terminal.RED + "Invalid Amount!" + Terminal.DEFAULT);
         }
 
-        if (cash > 0 & cash < 1_000_000 & cash > totalPrice) {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
-            DatabaseHelper databaseHelper = new DatabaseHelper();
-            int transactionId = 0;
-
-            // Save transaction to database
-            transactionId = databaseHelper.saveTransaction(cart, cash, totalPrice);
-
-            Functions.clearConsole();
-            displayReceiptHeader();
-            listItems();
-
-            System.out.print(Terminal.BOLD + "CASH: " + Terminal.DEFAULT + String.format("%,.2f", cash));
-            System.out.println(Terminal.BOLD + "\nCHANGE: " + Terminal.DEFAULT + String.format("%,.2f", (cash - totalPrice)));
-
-            System.out.println(Terminal.BOLD + "\nVatable Sales: " + Terminal.DEFAULT + String.format("%,.2f", totalPrice));
-            System.out.println(Terminal.BOLD + "Vat Amount: " + Terminal.DEFAULT + String.format("%,.2f", (totalPrice * 0.12)));
-
-            System.out.println(Terminal.BOLD + "\nPOS Transaction ID: " + transactionId);
-            System.out.println(Terminal.BOLD + "Date: " + Terminal.DEFAULT + LocalDateTime.now().format(dateFormatter));
-            System.out.println(Terminal.BOLD + "Time: " + Terminal.DEFAULT + LocalDateTime.now().format(timeFormatter));
-
-            displayReceiptFooter();
-        }
-
-        System.out.println("_________________________________________");
         System.out.print(Terminal.BLUE + "Press Enter to proceed..." + Terminal.DEFAULT);
         Functions.getChoiceInString();
         Functions.clearConsole();
@@ -260,18 +248,121 @@ public class NewTransaction extends Inventory {
         return totalPrice;
     }
 
+    private void displayAndSaveReceipt(float cash, float totalPrice) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        int transactionId = 0;
+
+        // Save transaction to database
+        transactionId = databaseHelper.saveTransaction(cart, cash, totalPrice);
+
+        Functions.clearConsole();
+        displayReceiptHeader();
+        listItems();
+
+        printTextWithStyle(Terminal.BOLD + "CASH: " + Terminal.DEFAULT + String.format("%,.2f", cash));
+        printTextWithStyle(Terminal.BOLD + "CHANGE: " + Terminal.DEFAULT + String.format("%,.2f", (cash - totalPrice)));
+
+        printTextWithBorder("");
+        printTextWithStyle(Terminal.BOLD + "Vatable Amount: " + Terminal.DEFAULT + String.format("%,.2f", totalPrice));
+        printTextWithStyle(Terminal.BOLD + "VAT: " + Terminal.DEFAULT + String.format("%,.2f", (totalPrice * 0.12)) + " (12.00%)");
+
+        printTextWithBorder("");
+        printTextWithStyle(Terminal.BOLD + "POS Transaction ID: " + Terminal.DEFAULT + transactionId);
+        printTextWithStyle(Terminal.BOLD + "Date: " + Terminal.DEFAULT + LocalDateTime.now().format(dateFormatter));
+        printTextWithStyle(Terminal.BOLD + "Time: " + Terminal.DEFAULT + LocalDateTime.now().format(timeFormatter));
+
+        displayReceiptFooter();
+    }
+
     private void displayReceiptHeader() {
-        System.out.println(Terminal.BOLD + Terminal.YELLOW + "=============== R E C E I P T ===============" + Terminal.DEFAULT);
-        System.out.println(Terminal.BOLD + "POSsys By Al Hans Gaming");
-        System.out.println("BS Computer Science - Section 2A");
-        System.out.println("Laguna State Polytechnic University");
-        System.out.println("San Gabriel, San Pablo City, Laguna\n" + Terminal.DEFAULT);
+        printTextWithAsterisk(" R E C E I P T ");
+        printTextWithStyle(Terminal.BOLD + "POSsys By Al Hans Gaming" + Terminal.DEFAULT);
+        printTextWithStyle(Terminal.BOLD + "BS Computer Science - Section 2A" + Terminal.DEFAULT);
+        printTextWithStyle(Terminal.BOLD + "Laguna State Polytechnic University" + Terminal.DEFAULT);
+        printTextWithStyle(Terminal.BOLD + "San Gabriel, San Pablo City, Laguna" + Terminal.DEFAULT);
+        printTextWithBorder("");
     }
 
     private void displayReceiptFooter() {
-        System.out.println("\nThank you for your purchase.");
-        System.out.println("If you are not satisfied with the");
-        System.out.println("performance of our product, you can");
-        System.out.println("return it along with its warranty.\n\n");
+        printTextWithBorder("");
+        printTextWithBorder("Thank you for your purchase.");
+        printTextWithBorder("If you are not satisfied with the");
+        printTextWithBorder("performance of our product, you can");
+        printTextWithBorder("return it along with its warranty.");
+        printBorder();
+        System.out.println();
+    }
+
+    private void printBorder() {
+        for (int i = 0; i < terminalWidth + 4; i++) {
+            System.out.print(Terminal.BLUE + "*" + Terminal.DEFAULT);
+        }
+        System.out.println();
+    }
+
+    private void printLine() {
+        System.out.print(Terminal.BLUE + "* " + Terminal.DEFAULT);
+        for (int i = 0; i < terminalWidth; i++) {
+            System.out.print(Terminal.BLUE + "_" + Terminal.DEFAULT);
+        }
+        System.out.println(Terminal.BLUE + " *" + Terminal.DEFAULT);
+    }
+
+    private void printTextWithEqual(String text) {
+        int padding = (terminalWidth - text.length()) / 2;
+
+        System.out.print(Terminal.BLUE + "* ");
+        for (int i = 0; i < padding; i++) {
+            System.out.print("=");
+        }
+
+        System.out.print(text);
+
+        for (int i = 0; i < padding; i++) {
+            System.out.print("=");
+        }
+        System.out.println(" *" + Terminal.DEFAULT);
+    }
+
+    private void printTextWithAsterisk(String text) {
+        int padding = ((terminalWidth - text.length()) / 2) + 2;
+
+        System.out.print(Terminal.BLUE);
+        for (int i = 0; i < padding; i++) {
+            System.out.print("*");
+        }
+
+        System.out.print(text);
+
+        for (int i = 0; i < padding; i++) {
+            System.out.print("*");
+        }
+        System.out.println(Terminal.DEFAULT);
+    }
+
+    private void printTextWithBorder(String text) {
+        int padding = terminalWidth - text.length();
+
+        System.out.print(Terminal.BLUE + "* " + Terminal.DEFAULT);
+        System.out.print(text);
+
+        for (int i = 0; i < padding; i++) {
+            System.out.print(" ");
+        }
+        System.out.println(Terminal.BLUE + " *" + Terminal.DEFAULT);
+    }
+
+    private void printTextWithStyle(String text) {
+        int padding = terminalWidth - (text.length() - 8);
+
+        System.out.print(Terminal.BLUE + "* " + Terminal.DEFAULT);
+        System.out.print(text);
+
+        for (int i = 0; i < padding; i++) {
+            System.out.print(" ");
+        }
+        System.out.println(Terminal.BLUE + " *" + Terminal.DEFAULT);
     }
 }
