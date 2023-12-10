@@ -92,10 +92,10 @@ public class Inventory implements Menu {
         for (Item item : items) {
             displayItem(item);
         }
-        return items;        
+        return items;
     }
 
-    private void pressEnterDisplay() {
+    public void pressEnterDisplay() {
         System.out.print(Terminal.BLUE + "Press Enter to go back..." + Terminal.DEFAULT);
         Functions.getChoiceInString();
         Functions.clearConsole();

@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Report implements Menu {
+public class Report extends NewTransaction {
     @Override
     public void choices() {
         while (true) {
@@ -102,25 +102,40 @@ public class Report implements Menu {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
         LocalDateTime localDateTime = LocalDateTime.parse(transaction.getDateTime(), dateTimeFormatter);
 
+        // Need to improve
         for (TransactionItem transactionItem : transactionItems) {
-            System.out.println("[" + transactionItem.getItemId() + "] " + 
-                                databaseHelper.getItem(transactionItem.getItemId()).getProductName());
-            System.out.println(transactionItem.getQuantity() + "pc * " +
-                                String.format("%,.2f", transactionItem.getPrice()) + " = " + 
-                                String.format("%,.2f", transactionItem.getItemTotalPrice()) + "\n");
+            transactionItem.setProductName(databaseHelper.getItem(transactionItem.getItemId()).getProductName());
+            if (transactionItem.getProductName().length() > receiptWidth) {
+                receiptWidth = transactionItem.getProductName().length();
+            }
         }
 
-        System.out.println(Terminal.BOLD + "TOTAL : " + Terminal.DEFAULT + String.format("%,.2f", transaction.getTotalPrice()));
-        System.out.print(Terminal.BOLD + "CASH: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getCash()));
-        System.out.println(Terminal.BOLD + "\nCHANGE: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getChange()));
+        printTextWithAsterisk(" T R A N S A C T I O N ");
 
-        System.out.println(Terminal.BOLD + "\nVatable Sales: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getTotalPrice()));
-        System.out.println(Terminal.BOLD + "Vat Amount: " + Terminal.DEFAULT + String.format("%,.2f", (transaction.getTotalPrice() * 0.12)));
+        for (TransactionItem transactionItem : transactionItems) {
+            printTextWithBorder(transactionItem.getProductName());
+            printTextWithBorder(transactionItem.getQuantity() + "pc * " +
+                                String.format("%,.2f", transactionItem.getPrice()) + " = " + 
+                                String.format("%,.2f", transactionItem.getItemTotalPrice()));
+            printTextWithBorder("");
+        }
 
-        System.out.println(Terminal.BOLD + "\nPOS Transaction ID: " + Terminal.DEFAULT + transaction.getTransactionPk());
-        System.out.println(Terminal.BOLD + "Date: " + Terminal.DEFAULT + localDateTime.format(dateFormatter));
-        System.out.println(Terminal.BOLD + "Time: " + Terminal.DEFAULT + localDateTime.format(timeFormatter));
+        printLine();
+        printTextWithStyle(Terminal.BOLD + "TOTAL: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getTotalPrice()));
+        printTextWithStyle(Terminal.BOLD + "CASH: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getCash()));
+        printTextWithStyle(Terminal.BOLD + "CHANGE: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getChange()));
 
+        printTextWithBorder("");
+        printTextWithStyle(Terminal.BOLD + "Vatable Amount: " + Terminal.DEFAULT + String.format("%,.2f", transaction.getTotalPrice()));
+        printTextWithStyle(Terminal.BOLD + "VAT: " + Terminal.DEFAULT + String.format("%,.2f", (transaction.getTotalPrice() * 0.12)) + " (12.00%)");
+
+        printTextWithBorder("");
+        printTextWithStyle(Terminal.BOLD + "POS Transaction ID: " + Terminal.DEFAULT + transaction.getTransactionPk());
+        printTextWithStyle(Terminal.BOLD + "Date: " + Terminal.DEFAULT + localDateTime.format(dateFormatter));
+        printTextWithStyle(Terminal.BOLD + "Time: " + Terminal.DEFAULT + localDateTime.format(timeFormatter));
+        printBorder();
+
+        receiptWidth = 35;
         pressEnterDisplay();
     }
 
@@ -128,19 +143,17 @@ public class Report implements Menu {
         DatabaseHelper databaseHelper = new DatabaseHelper();
         double grossAmount = databaseHelper.getGrossAmount();
 
-        System.out.println(Terminal.BOLD + Terminal.BLUE + "====== S T A T I S T I C S ======\n" + Terminal.DEFAULT);
-        System.out.println(Terminal.BOLD + "Items Sold: " + Terminal.DEFAULT + databaseHelper.countTableRow("transaction_item") + "\n");
-        System.out.println(Terminal.BOLD + "Registered Transactions: " + Terminal.DEFAULT + databaseHelper.countTableRow("transactions") + "\n");
-        System.out.println(Terminal.BOLD + "Gross Amount: " + Terminal.DEFAULT + String.format("%,.2f", grossAmount) + "\n");
-        System.out.println(Terminal.BOLD + "Estimated Net Amount: " + Terminal.DEFAULT + String.format("%,.2f", (grossAmount * 0.12)));
+        printTextWithAsterisk(" S T A T I S T I C S ");
+        printTextWithStyle(Terminal.BOLD + "Items Sold: " + Terminal.DEFAULT + databaseHelper.countTableRow("transaction_item"));
+        printTextWithBorder("");
+        printTextWithStyle(Terminal.BOLD + "Registered Transactions: " + Terminal.DEFAULT + databaseHelper.countTableRow("transactions"));
+        printTextWithBorder("");
+        printTextWithStyle(Terminal.BOLD + "Gross Amount: " + Terminal.DEFAULT + String.format("%,.2f", grossAmount));
+        printTextWithBorder("");
+        printTextWithStyle(Terminal.BOLD + "Estimated Net Amount: " + Terminal.DEFAULT + String.format("%,.2f", (grossAmount * 0.12)));
+        printBorder();
 
+        receiptWidth = 35;
         pressEnterDisplay();
-    }
-
-    private void pressEnterDisplay() {
-        System.out.println("\n=================================");
-        System.out.print(Terminal.BLUE + "Press Enter to go back..." + Terminal.DEFAULT);
-        Functions.getChoiceInString();
-        Functions.clearConsole();
     }
 }

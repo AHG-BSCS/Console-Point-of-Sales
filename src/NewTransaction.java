@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class NewTransaction extends Inventory {
     private ArrayList<Item> cart = new ArrayList<>();
-    private int terminalWidth = 35;
+    public int receiptWidth = 35;
 
     @Override
     public void choices() {
@@ -63,12 +63,11 @@ public class NewTransaction extends Inventory {
     private void listItems() {
         if (cart.size() != 0) {
             for (Item item : cart) {
-                if (item.getProductName().length() > terminalWidth)
-                    terminalWidth = item.getProductName().length();
+                if (item.getProductName().length() > receiptWidth)
+                    receiptWidth = item.getProductName().length();
             }
 
             double totalAmount = 0;
-            //printTextWithStyle(Terminal.BOLD + "============== I T E M S ==============" + Terminal.DEFAULT);
             printTextWithEqual(" I T E M S ");
 
             for (Item item : cart) {
@@ -79,6 +78,7 @@ public class NewTransaction extends Inventory {
                 printTextWithBorder(item.getQuantity() + " pc * " + 
                                     String.format("%,.2f", item.getPrice()) + " = " + 
                                     String.format("%,.2f", (item.getPrice() * item.getQuantity())));
+                printTextWithBorder("");
             }
             printLine();
             printTextWithStyle(Terminal.BOLD + "TOTAL: " + Terminal.DEFAULT + String.format("%,.2f", totalAmount));
@@ -221,7 +221,10 @@ public class NewTransaction extends Inventory {
             }
             else if (cash > 0 && cash <= (totalPrice + 1000)) {
                 if (cash >= totalPrice) {
-                    displayAndSaveReceipt(cash, totalPrice);
+                    DatabaseHelper databaseHelper = new DatabaseHelper();
+                    int transactionId = databaseHelper.saveTransaction(cart, cash, totalPrice);;
+                    displayReceipt(cash, totalPrice, transactionId);
+                    receiptWidth = 35; // Reset receipt width
                     break;
                 }
                 else
@@ -248,14 +251,9 @@ public class NewTransaction extends Inventory {
         return totalPrice;
     }
 
-    private void displayAndSaveReceipt(float cash, float totalPrice) {
+    private void displayReceipt(float cash, float totalPrice, int transactionId) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
-        DatabaseHelper databaseHelper = new DatabaseHelper();
-        int transactionId = 0;
-
-        // Save transaction to database
-        transactionId = databaseHelper.saveTransaction(cart, cash, totalPrice);
 
         Functions.clearConsole();
         displayReceiptHeader();
@@ -276,7 +274,7 @@ public class NewTransaction extends Inventory {
         displayReceiptFooter();
     }
 
-    private void displayReceiptHeader() {
+    public void displayReceiptHeader() {
         printTextWithAsterisk(" R E C E I P T ");
         printTextWithStyle(Terminal.BOLD + "POSsys By Al Hans Gaming" + Terminal.DEFAULT);
         printTextWithStyle(Terminal.BOLD + "BS Computer Science - Section 2A" + Terminal.DEFAULT);
@@ -295,23 +293,23 @@ public class NewTransaction extends Inventory {
         System.out.println();
     }
 
-    private void printBorder() {
-        for (int i = 0; i < terminalWidth + 4; i++) {
+    public void printBorder() {
+        for (int i = 0; i < receiptWidth + 4; i++) {
             System.out.print(Terminal.BLUE + "*" + Terminal.DEFAULT);
         }
         System.out.println();
     }
 
-    private void printLine() {
+    public void printLine() {
         System.out.print(Terminal.BLUE + "* " + Terminal.DEFAULT);
-        for (int i = 0; i < terminalWidth; i++) {
+        for (int i = 0; i < receiptWidth; i++) {
             System.out.print(Terminal.BLUE + "_" + Terminal.DEFAULT);
         }
         System.out.println(Terminal.BLUE + " *" + Terminal.DEFAULT);
     }
 
-    private void printTextWithEqual(String text) {
-        int padding = (terminalWidth - text.length()) / 2;
+    public void printTextWithEqual(String text) {
+        int padding = (receiptWidth - text.length()) / 2;
 
         System.out.print(Terminal.BLUE + "* ");
         for (int i = 0; i < padding; i++) {
@@ -326,8 +324,8 @@ public class NewTransaction extends Inventory {
         System.out.println(" *" + Terminal.DEFAULT);
     }
 
-    private void printTextWithAsterisk(String text) {
-        int padding = ((terminalWidth - text.length()) / 2) + 2;
+    public void printTextWithAsterisk(String text) {
+        int padding = ((receiptWidth - text.length()) / 2) + 2;
 
         System.out.print(Terminal.BLUE);
         for (int i = 0; i < padding; i++) {
@@ -342,8 +340,8 @@ public class NewTransaction extends Inventory {
         System.out.println(Terminal.DEFAULT);
     }
 
-    private void printTextWithBorder(String text) {
-        int padding = terminalWidth - text.length();
+    public void printTextWithBorder(String text) {
+        int padding = receiptWidth - text.length();
 
         System.out.print(Terminal.BLUE + "* " + Terminal.DEFAULT);
         System.out.print(text);
@@ -354,8 +352,8 @@ public class NewTransaction extends Inventory {
         System.out.println(Terminal.BLUE + " *" + Terminal.DEFAULT);
     }
 
-    private void printTextWithStyle(String text) {
-        int padding = terminalWidth - (text.length() - 8);
+    public void printTextWithStyle(String text) {
+        int padding = receiptWidth - (text.length() - 8);
 
         System.out.print(Terminal.BLUE + "* " + Terminal.DEFAULT);
         System.out.print(text);
