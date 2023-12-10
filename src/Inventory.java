@@ -123,6 +123,7 @@ public class Inventory implements Menu {
 
         for (Item item : items) {
             displayItem(item);
+            System.out.println();
         }
         return items;
     }
