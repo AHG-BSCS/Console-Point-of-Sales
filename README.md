@@ -1,4 +1,4 @@
-## POSsy - Console POS System by AHG
+## POSsys - Console POS System by Al Hans Gaming
 
 A Point Of Sales System using Java
 
