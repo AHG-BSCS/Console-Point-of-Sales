@@ -1,4 +1,4 @@
-public class Item extends Product{
+public class Item extends Product {
     private int stock;
     private int classification;
 

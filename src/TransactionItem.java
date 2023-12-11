@@ -1,4 +1,4 @@
-public class TransactionItem extends Product{
+public class TransactionItem extends Product {
     private int transactionId;
     private float itemTotalPrice;
 
