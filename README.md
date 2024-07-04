@@ -1,4 +1,4 @@
-# POSsys ![possys badge][possys-badge]
+# ![possys thumbnail][possys-thumbnail] POSsys ![possys badge][possys-badge]
 A Console application that can process sale transactions of a store. This application features a computer store. It has a database where products are retrieved and transactions are saved. Users can navigate through the console using the numeric menu. When starting a new transaction, user can add items, check out and generate their receipt. Other transactions can also be done through the application like checking the inventory, retrieving previous transactions and reviewing reports.
 
 ## Table of Contents
@@ -47,7 +47,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **[SQLite][sqlite]**: For serverless database.
 
 <!-- Reference -->
-[possys-badge]: https://img.shields.io/badge/Console-Point_of_Sale_System-002456
+[possys-thumbnail]: https://github.com/AHG-BSCS/Console-Point-of-Sales/assets/130748576/03c2b6a3-5b94-4f99-9a51-8dbc737f435e
+[possys-badge]: https://img.shields.io/badge/Console-Point_of_Sale_System-245F75
 
 [new-transaction]: https://github.com/AHG-BSCS/Console-Point-of-Sales/assets/130748576/b267ddc4-ff80-4319-8227-b476fb5e3c2b
 [payment]: https://github.com/AHG-BSCS/Console-Point-of-Sales/assets/130748576/9be7fb61-8acc-471b-8798-1717a67e1376
@@ -60,7 +61,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [erm]: https://github.com/AHG-BSCS/Console-Point-of-Sales/assets/130748576/82ea20a2-6377-4577-bf9d-66db784748c8
 
 [release-page]: https://github.com/Mindkerchief/README-MKC-Standard/releases
-[latest-release]: https://github.com/Mindkerchief/README-MKC-Standard/releases
+[latest-release]: https://github.com/AHG-BSCS/Console-Point-of-Sales/releases/download/v1.0.0-Beta/POSsys-1.0.0-Beta.exe
 [visual-studio-code]: https://code.visualstudio.com/docs
 [advanced-installer]: https://www.advancedinstaller.com/user-guide/using.html
 [database-tour]: https://www.databasetour.net/documentation/contents.htm
