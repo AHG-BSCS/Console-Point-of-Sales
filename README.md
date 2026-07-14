@@ -33,17 +33,17 @@ A Console application that can process sale transactions of a store. This applic
 ## Entity Relationship Model
 ![Entity Relationship Model][erm]
 
+The entity relationship model diagram above indicate the relationship of different tables and columns in the database as well as their datatype. Up-to Third Normal Form (3NF) database normalization technique was implemented to reduce data duplication and prevent update, insertion, and deletion anomalies.
+
 ## Installation
-1. Download the latest version of [POSsys][release-page].
-2. Install [POSsys-1.0.0-Beta.exe][latest-release].
+1. Download and install the latest version of [POSsys][release-page].
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
-- **[Visual Studio Code][visual-studio-code]**: For development environment.
 - **[Advanced Installer][advanced-installer]**: For installer.
-- **[Database Tour][database-tour]**: For database manager.
+- **[Database Tour][database-tour]**: For database editor.
 - **[SQLite][sqlite]**: For serverless database.
 
 <!-- Reference -->
