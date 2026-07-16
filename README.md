@@ -60,7 +60,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [add-item]: https://github.com/AHG-BSCS/Console-Point-of-Sales/assets/130748576/2ac1ff18-f98c-4577-9040-8230740c178a
 [erm]: https://github.com/AHG-BSCS/Console-Point-of-Sales/assets/130748576/82ea20a2-6377-4577-bf9d-66db784748c8
 
-[release-page]: https://github.com/Mindkerchief/README-MKC-Standard/releases
+[release-page]: https://github.com/AHG-BSCS/Console-Point-of-Sales/releases
 [advanced-installer]: https://www.advancedinstaller.com/user-guide/using.html
 [database-tour]: https://www.databasetour.net/documentation/contents.htm
 [sqlite]: https://www.sqlite.org/docs.html
